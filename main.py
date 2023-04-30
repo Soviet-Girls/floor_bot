@@ -38,6 +38,10 @@ async def now_handler(message: Message):
             bot_message, attachment=attachment, keyboard=keyboards.market_links
         )
     else:
+        is_admin = await admin.check(bot, message.peer_id, message.from_id)
+        if is_admin == False:
+            await message.answer("У вас нет доступа к этой команде")
+            return
         await message.answer(bot_message, keyboard=keyboards.market_links)
 
 

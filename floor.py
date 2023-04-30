@@ -24,3 +24,14 @@ async def get():
     bot_message += f"\n\nВчера: {data['historicalValues'][-2]} MATIC"
     bot_message += f"\nПозавчера: {data['historicalValues'][-3]} MATIC"
     return bot_message
+
+# Отдать голые данные
+async def get_raw():
+    async with aiohttp.ClientSession() as session:
+        async with session.get(os.getenv("RARIBLE_API_URL")) as resp:
+            data = await resp.json(content_type=None)
+            if resp.status != 200:
+                print(f"Error: {resp.status}")
+                print(f"Error: {data}")
+                return
+    return data

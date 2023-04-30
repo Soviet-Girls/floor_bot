@@ -8,10 +8,12 @@ from typing import Tuple
 
 from vkbottle.bot import Bot, Message
 from vkbottle.dispatch.rules.base import CommandRule
+from vkbottle.tools import PhotoMessageUploader
 
 import floor
 import keyboards
 import admin
+import chart
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_path):
@@ -19,6 +21,7 @@ if os.path.exists(dotenv_path):
 
 
 bot = Bot(token=os.getenv("VK_API_KEY"))
+uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
 
 schedule_peer_id = 0
 
@@ -26,7 +29,17 @@ schedule_peer_id = 0
 @bot.on.message(text="/флор")
 async def now_handler(message: Message):
     bot_message = await floor.get()
-    await message.answer(bot_message, keyboard=keyboards.market_links)
+    if message.peer_id == message.from_id:
+        raw_data = await floor.get_raw()
+        buf = chart.generate(raw_data)
+        attachment = await uploader.upload(buf, peer_id=message.peer_id)
+        await message.answer(
+            bot_message,
+            attachment=attachment, 
+            keyboard=keyboards.market_links
+            )
+    else:
+        await message.answer(bot_message, keyboard=keyboards.market_links)
 
 # Отправлять флор каждые n минут
 @bot.on.message(CommandRule("старт", ['/'], 1))

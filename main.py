@@ -56,5 +56,13 @@ async def stop_handler(message: Message):
     schedule_peer_id = 0
     await message.answer("Бот остановлен")
 
+@bot.on.message(text="/admin")
+async def admin_handler(message: Message):
+    is_admin = await admin.check(bot, message.peer_id, message.from_id)
+    if is_admin == False:
+        await message.answer("У вас нет доступа к этой команде")
+        return
+    await message.answer("Вы администратор")
+
 if __name__ == "__main__":
     bot.run_forever()

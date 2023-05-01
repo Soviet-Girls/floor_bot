@@ -22,7 +22,7 @@ seaborn.set_theme(style="darkgrid")
 def generate(data: dict) -> bytes:
     # Превращаем даты в данных из 2023-04-25 в 25.04.2023
     data["historicalDates"] = [
-        date.split("-")[2] + "." + date.split("-")[1] + "." + date.split("-")[0]
+        date.split("-")[2] + "." + date.split("-")[1]
         for date in data["historicalDates"]
     ]
     # Генерируем график за последние 7 дней
@@ -34,9 +34,11 @@ def generate(data: dict) -> bytes:
         y="historicalValues",
     )
     # Настраиваем график
-    c.set_title("График флора КриптоСпотти на Rarible")
+    c.set_title("График флора КриптоСпотти на Rarible", fontsize=16)
     c.set_xlabel("")
     c.set_ylabel("Цена в MATIC")
+    # Делаем график более широким
+    c.figure.set_figwidth(8)
     # Сохраняем график в буфер
     buf = io.BytesIO()
     c.figure.savefig(buf, format="png")

@@ -16,9 +16,6 @@ mock = {
     "currentValue": 17.5,
 }
 
-seaborn.set_theme(style="darkgrid")
-
-
 def generate(data: dict) -> bytes:
     # Превращаем даты в данных из 2023-04-25 в 25.04.2023
     data["historicalDates"] = [
@@ -28,6 +25,7 @@ def generate(data: dict) -> bytes:
     # Генерируем график за последние 7 дней
     data["historicalDates"] = data["historicalDates"][-7:]
     data["historicalValues"] = data["historicalValues"][-7:]
+    seaborn.set_theme(style="darkgrid")
     c = seaborn.lineplot(
         data=data,
         x="historicalDates",

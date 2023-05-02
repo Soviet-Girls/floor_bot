@@ -62,7 +62,7 @@ async def schedule_handler(message: Message, args: Tuple[str]):
     schedule_peer_id = message.peer_id
     while schedule_peer_id == message.peer_id:
         bot_message = await floor.get()
-        await message.answer(bot_message, keyboard=keyboards.market_links)
+        await message.answer(bot_message, keyboard=keyboards.market_links_conversation)
         await asyncio.sleep(int(args[0]) * 60)
 
 

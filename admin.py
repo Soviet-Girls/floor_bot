@@ -17,5 +17,6 @@ async def check(bot: Bot, peer_id: int, user_id: int) -> bool:
 
     for item in response.items:
         if item.member_id == user_id:
+            print(item)
             return item.is_admin
     return False

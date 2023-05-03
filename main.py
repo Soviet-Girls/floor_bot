@@ -17,6 +17,8 @@ import floor
 import keyboards
 import admin
 import chart
+import dialogue
+from rules import ChitChatRule
 
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 if os.path.exists(dotenv_path):
@@ -135,6 +137,11 @@ async def admin_handler(message: Message):
         return
     await message.answer("Вы администратор")
 
-
+# Болталка
+@bot.on.message(ChitChatRule())
+async def chit_chat_handler(message: Message):
+    bot_message = await dialogue.get_answer(message.text, message.peer_id)
+    await message.answer(bot_message)
+    
 if __name__ == "__main__":
     bot.run_forever()

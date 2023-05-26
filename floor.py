@@ -20,7 +20,7 @@ async def get():
             f"📈 Актуальный флор: {data['currentValue']} MATIC (+{change_percent}%)"
         )
     elif data["currentValue"] == previous:
-        bot_message = f"📊 Актуальный флор: {data['currentValue']} MATIC)"
+        bot_message = f"📊 Актуальный флор: {data['currentValue']} MATIC"
     else:
         bot_message = (
             f"📉 Актуальный флор: {data['currentValue']} MATIC (-{change_percent}%)"

@@ -10,20 +10,21 @@ from vkbottle import GroupEventType, ABCRule
 from vkbottle.bot import Bot, Message, MessageEvent
 from vkbottle.tools import PhotoMessageUploader
 
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
 import floor
 import keyboards
 import admin
 import chart
-
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
+import widget
 
 
 bot = Bot(token=os.getenv("VK_API_KEY"))
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
 
-schedule_peer_id = 0
+last_widget_update = 0
 
 # Правило для команды
 class CommandRule(ABCRule):
@@ -100,14 +101,13 @@ async def chart_handler(event: MessageEvent):
         await event.show_snackbar("Не удалось отправить график! Возможно, у вас нет диалога с ботом.")
         raise e
 
-# Проверка на права администратора
-@bot.on.message(text="/admin")
-async def admin_handler(message: Message):
-    is_admin = await admin.check(bot, message.peer_id, message.from_id)
-    if is_admin == False:
-        await message.answer("У вас нет доступа к этой команде")
-        return
-    await message.answer("Вы администратор")
+# Обновлять виджет сообщества после каждого сообщения, если прошло больше 1 минуты
+@bot.on.message()
+async def widget_handler(message: Message):
+    global last_widget_update
+    if message.date - last_widget_update > 60:
+        last_widget_update = message.date
+        await widget.update()
 
 
 if __name__ == "__main__":

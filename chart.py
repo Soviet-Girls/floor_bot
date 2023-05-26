@@ -3,19 +3,6 @@
 import io
 import seaborn
 
-mock = {
-    "historicalDates": [
-        "2023-04-25",
-        "2023-04-26",
-        "2023-04-27",
-        "2023-04-28",
-        "2023-04-29",
-        "2023-04-30",
-    ],
-    "historicalValues": [17, 17, 10, 17, 18.7, 17.5],
-    "currentValue": 17.5,
-}
-
 def generate(data: dict) -> bytes:
     # Превращаем даты в данных из 2023-04-25 в 25.04.2023
     data["historicalDates"] = [
@@ -32,7 +19,7 @@ def generate(data: dict) -> bytes:
         y="historicalValues",
     )
     # Настраиваем график
-    c.set_title("График флора КриптоСпотти на Rarible", fontsize=16)
+    c.set_title("График флора Soviet Girls", fontsize=16)
     c.set_xlabel("")
     c.set_ylabel("Цена в MATIC")
     # Делаем график более широким
@@ -40,6 +27,8 @@ def generate(data: dict) -> bytes:
     # Сохраняем график в буфер
     buf = io.BytesIO()
     c.figure.savefig(buf, format="png")
+    # Очищаем график
+    c.figure.clf()
     # Возвращаем буфер
     buf.seek(0)
     return buf.read()

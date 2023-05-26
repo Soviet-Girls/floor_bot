@@ -4,8 +4,10 @@ from vkbottle import Keyboard, OpenLink, Callback
 
 market_links = (
     Keyboard(inline=True)
-    .add(OpenLink(link="https://rarible.com/Cryptospotty/", label="Rarible"))
-    .add(OpenLink(link="https://opensea.io/collection/cryptospotty-1", label="OpenSea"))
+    .add(OpenLink(link="https://market.sovietgirls.su/", label="Маркетплейс"))
+    .row()
+    .add(OpenLink(link="https://rarible.com/sovietgirls/", label="Rarible"))
+    .add(OpenLink(link="https://opensea.io/collection/sovietgirls", label="OpenSea"))
     .row()
     .add(Callback("🔃 Обновить", payload={"command": "update_full"}))
 )
@@ -13,6 +15,8 @@ market_links = (
 
 market_links_conversation = (
     Keyboard(inline=True)
+    .add(OpenLink(link="https://market.sovietgirls.su/", label="Маркетплейс"))
+    .row()
     .add(OpenLink(link="https://rarible.com/Cryptospotty/", label="Rarible"))
     .add(OpenLink(link="https://opensea.io/collection/cryptospotty-1", label="OpenSea"))
     .row()

@@ -109,6 +109,12 @@ async def widget_handler(message: Message):
         last_widget_update = message.date
         await widget.update()
 
+# Если вступили в закрытый чат по ссылке то обновить ссылку на беседу
+@bot.on.chat_invite()
+async def chat_invite_handler(message: Message):
+    if message.action.type == 'chat_invite_user_by_link' \
+        and message.peer_id == 2000000004:
+        await bot.api.messages.get_invite_link(peer_id=2000000004, reset=1)
 
 if __name__ == "__main__":
     bot.run_forever()

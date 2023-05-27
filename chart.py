@@ -9,9 +9,9 @@ def generate(data: dict) -> bytes:
         date.split("-")[2] + "." + date.split("-")[1]
         for date in data["historicalDates"]
     ]
-    # Генерируем график за последние 7 дней
-    data["historicalDates"] = data["historicalDates"][-7:]
-    data["historicalValues"] = data["historicalValues"][-7:]
+    # Генерируем график за последние 6 дней
+    data["historicalDates"] = data["historicalDates"][-6:]
+    data["historicalValues"] = data["historicalValues"][-6:]
     seaborn.set_theme(style="darkgrid")
     c = seaborn.lineplot(
         data=data,

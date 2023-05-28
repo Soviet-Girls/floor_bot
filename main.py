@@ -18,13 +18,11 @@ import floor
 import keyboards
 import admin
 import chart
-import widget
 
 
 bot = Bot(token=os.getenv("VK_API_KEY"))
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
 
-last_widget_update = 0
 
 # Правило для команды
 class CommandRule(ABCRule):
@@ -101,13 +99,6 @@ async def chart_handler(event: MessageEvent):
         await event.show_snackbar("Не удалось отправить график! Возможно, у вас нет диалога с ботом.")
         raise e
 
-# Обновлять виджет сообщества после каждого сообщения, если прошло больше 1 минуты
-@bot.on.message()
-async def widget_handler(message: Message):
-    global last_widget_update
-    if message.date - last_widget_update > 60:
-        last_widget_update = message.date
-        await widget.update()
 
 # Если вступили в закрытый чат по ссылке то обновить ссылку на беседу
 @bot.on.chat_invite()

@@ -1,17 +1,21 @@
-# Генератор графиков
+# -*- coding: utf-8 -*-
+# Построение графика
 
+# Импорт необходимых модулей
 import io
 import seaborn
+import datetime
+from config import config
 
 def generate(data: dict) -> bytes:
     # Превращаем даты в данных из 2023-04-25 в 25.04.2023
     data["historicalDates"] = [
-        date.split("-")[2] + "." + date.split("-")[1]
+        datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%d.%m.%Y') 
         for date in data["historicalDates"]
     ]
-    # Генерируем график за последние 6 дней
-    data["historicalDates"] = data["historicalDates"][-6:]
-    data["historicalValues"] = data["historicalValues"][-6:]
+    # Генерируем график за последние 7 дней
+    data["historicalDates"] = data["historicalDates"][-7:]
+    data["historicalValues"] = data["historicalValues"][-7:]
     seaborn.set_theme(style="darkgrid")
     c = seaborn.lineplot(
         data=data,
@@ -19,7 +23,7 @@ def generate(data: dict) -> bytes:
         y="historicalValues",
     )
     # Настраиваем график
-    c.set_title("График флора Soviet Girls", fontsize=16)
+    c.set_title(f"График флора {config.nft.name}", fontsize=16)
     c.set_xlabel("")
     c.set_ylabel("Цена в MATIC")
     # Делаем график более широким

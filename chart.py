@@ -8,9 +8,9 @@ import datetime
 from config import config
 
 def generate(data: dict) -> bytes:
-    # Превращаем даты в данных из 2023-04-25 в 25.04.2023
+    # Превращаем даты в данных из 2023-04-25 в 25.04
     data["historicalDates"] = [
-        datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%d.%m.%Y') 
+        datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%d.%m') 
         for date in data["historicalDates"]
     ]
     # Генерируем график за последние 7 дней

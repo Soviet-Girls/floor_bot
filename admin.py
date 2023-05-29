@@ -26,7 +26,6 @@ async def check(bot: Bot, peer_id: int, user_id: int) -> bool:
     for item in response.items:
         # Если находим нужного пользователя, возвращаем его статус
         if item.member_id == user_id:
-            print(item)
             return item.is_admin
 
     # Если пользователь не найден в списке участников, возвращаем False

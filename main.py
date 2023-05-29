@@ -35,7 +35,7 @@ class CommandRule(ABCRule):
 
 
 # Вывести актуальный флор
-@bot.on.message(CommandRule(commands=("/floor", "/флор", "/akjh")))
+@bot.on.message(CommandRule(commands=("/floor", "/флор", "/akjh", "начать", "start")))
 async def now_handler(message: Message):
     bot_message = await floor.get()
     if message.peer_id == message.from_id:
@@ -55,7 +55,6 @@ async def now_handler(message: Message):
 # Обработка callback
 @bot.on.raw_event(GroupEventType.MESSAGE_EVENT, dataclass=MessageEvent)
 async def chart_handler(event: MessageEvent):
-    print(event.object.payload)
     
     # Обновить флор в сообщении
     if event.object.payload.get("command") == "update":
@@ -70,7 +69,7 @@ async def chart_handler(event: MessageEvent):
         return
     
     # Обновить флор в личных сообщениях
-    if event.object.payload.get("command") == "update_full":
+    if event.object.payload.get("command") == "full_update":
         bot_message = await floor.get()
         raw_data = await floor.get_raw()
         buf = chart.generate(raw_data)

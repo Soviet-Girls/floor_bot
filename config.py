@@ -23,14 +23,12 @@ class Markets:
 class APIs:
     rarible: str
     coinbase: str = "https://api.coinbase.com/v2"
-    sber: str = "https://api.aicloud.sbercloud.ru/public/v2/boltalka/predict"
 
 
 @dataclass
 class VK:
     token: str
     admins: list
-    bot_nick: str = None
 
 
 @dataclass
@@ -58,12 +56,10 @@ def load_config(path: str = None):
         api=APIs(
             rarible=env.str("API_RARIBLE"),
             coinbase=env.str("API_COINBASE", "https://api.coinbase.com/v2"),
-            sber=env.str("API_SBER", "https://api.aicloud.sbercloud.ru/public/v2/boltalka/predict"),
         ),
         vk=VK(
             token=env.str("VK_TOKEN"),
             admins=list(map(int, env.list("VK_ADMINS"))),
-            bot_nick=env.str("VK_BOT_NICK", None),
         )
     )
 

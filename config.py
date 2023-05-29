@@ -22,6 +22,7 @@ class Markets:
 @dataclass
 class APIs:
     rarible: str
+    coinbase: str = "https://api.coinbase.com/v2"
     sber: str = "https://api.aicloud.sbercloud.ru/public/v2/boltalka/predict"
 
 
@@ -56,6 +57,7 @@ def load_config(path: str = None):
         ),
         api=APIs(
             rarible=env.str("API_RARIBLE"),
+            coinbase=env.str("API_COINBASE", "https://api.coinbase.com/v2"),
             sber=env.str("API_SBER", "https://api.aicloud.sbercloud.ru/public/v2/boltalka/predict"),
         ),
         vk=VK(

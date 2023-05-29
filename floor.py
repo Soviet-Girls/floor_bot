@@ -4,6 +4,7 @@
 # Импорт необходимых модулей
 import aiohttp
 from config import config
+from currency import get_matic_rate
 
 
 # Функция для обработки запроса и получения данных от API Rarible
@@ -15,46 +16,6 @@ async def fetch_data(session, url):
             print(f"Error: {data}")
             return None
         return await resp.json(content_type=None)
-    
-
-# Функция для получения данных о флоре и формирования сообщения
-async def get():
-    async with aiohttp.ClientSession() as session:
-        data = await fetch_data(session, config.api.rarible)
-        if data is None:
-            return
-
-        previous = data["historicalValues"][-2]
-        change_percent = round((abs(data["currentValue"] - previous) / previous) * 100.0, 2)
-
-        if data["currentValue"] > previous:
-            bot_message = f"📈 Актуальный флор: {data['currentValue']} MATIC (+{change_percent}%)"
-        elif data["currentValue"] == previous:
-            bot_message = f"📊 Актуальный флор: {data['currentValue']} MATIC"
-        else:
-            bot_message = f"📉 Актуальный флор: {data['currentValue']} MATIC (-{change_percent}%)"
-
-        bot_message += f"\n\nВчера: {data['historicalValues'][-2]} MATIC"
-        bot_message += f"\nПозавчера: {data['historicalValues'][-3]} MATIC"
-        return bot_message
-
-
-async def get_stats():
-    url = config.api.rarible
-    async with aiohttp.ClientSession() as session:
-        data = await fetch_data(session, url)
-        if data is None:
-            return
-    return data
-
-
-# Отдать сырые данные
-async def get_raw():
-    async with aiohttp.ClientSession() as session:
-        data = await fetch_data(session, config.api.rarible)
-        if data is None:
-            return
-    return data
 
 
 # Функция для получения флора и формирования сообщения
@@ -70,19 +31,26 @@ async def get():
     previous = data["historicalValues"][-2]
     change_percent = round((abs(data["currentValue"] - previous) / previous) * 100.0, 2)
 
+    matic_rub, matic_usd = map(lambda x: round(x, 2), await get_matic_rate())
+
+    currentRub = round(data['currentValue'] * matic_rub)
+
     if data["currentValue"] > previous:
         bot_message = (
-            f"📈 Актуальный флор: {data['currentValue']} MATIC (+{change_percent}%)"
+            f"📈 Актуальный флор: {data['currentValue']} MATIC (≈{currentRub}₽) [+{change_percent}%]"
         )
     elif data["currentValue"] == previous:
-        bot_message = f"📊 Актуальный флор: {data['currentValue']} MATIC"
+        bot_message = f"📊 Актуальный флор: {data['currentValue']} MATIC [≈{currentRub}₽]"
     else:
         bot_message = (
-            f"📉 Актуальный флор: {data['currentValue']} MATIC (-{change_percent}%)"
+            f"📉 Актуальный флор: {data['currentValue']} MATIC (≈{currentRub}₽) [-{change_percent}%]"
         )
 
     bot_message += f"\n\nВчера: {data['historicalValues'][-2]} MATIC"
     bot_message += f"\nПозавчера: {data['historicalValues'][-3]} MATIC"
+
+    bot_message += f"\n\n1 MATIC ≈ {matic_rub}₽ | ${matic_usd}"
+
     return bot_message
 
 async def get_stats():

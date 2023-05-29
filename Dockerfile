@@ -2,7 +2,7 @@
 FROM python:3.8-slim-buster
 
 # Устанавливаем метаданные
-LABEL org.opencontainers.image.version="1.1" \
+LABEL org.opencontainers.image.version="1.2" \
       org.opencontainers.image.authors="buvanenko, mdpanf" \
       org.opencontainers.image.license="MIT" \
       org.opencontainers.image.title="Rarible Floor Bot" \

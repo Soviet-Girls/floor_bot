@@ -36,7 +36,7 @@ docker run -d --name myColl_rfb \
     -e API_RARIBLE="https://api.rarible.org/v/data/collections/NET:COLLECTION/floorPrice/?currency=CUR" \
     -e VK_TOKEN="your-vk-token" \
     -e VK_ADMINS=1234,5678 \
-    ghcr.io/mdpanf/rarible_floor_bot:latest
+    ghcr.io/steio-labs/rarible_floor_bot:latest
 ```
 
 ### Docker Compose
@@ -46,7 +46,7 @@ docker run -d --name myColl_rfb \
 version: "3.8"
 services:
   bot:
-    image: ghcr.io/mdpanf/rarible_floor_bot:latest
+    image: ghcr.io/steio-labs/rarible_floor_bot:latest
     restart: unless-stopped
     environment:
       - COLLECTION_NAME=<Collection Name>

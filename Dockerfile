@@ -8,8 +8,8 @@ LABEL org.opencontainers.image.version="1.2" \
       org.opencontainers.image.title="Rarible Floor Bot" \
       org.opencontainers.image.description="A simple rarible floor bot for VK" \
       org.opencontainers.image.vendor="Steio Labs" \
-      org.opencontainers.image.url="https://github.com/mdpanf/rarible_floor_bot" \
-      org.opencontainers.image.source="https://github.com/mdpanf/rarible_floor_bot"
+      org.opencontainers.image.url="https://github.com/Steio-Labs/rarible_floor_bot" \
+      org.opencontainers.image.source="https://github.com/Steio-Labs/rarible_floor_bot"
 
 
 # Устанавливаем рабочую директорию в контейнере

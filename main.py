@@ -47,9 +47,9 @@ async def now_handler(message: Message):
             bot_message, attachment=attachment, keyboard=keyboards.get_dm()
         )
     else:
-        if not await admin.check(bot, message.peer_id, message.from_id):
-            await message.answer("У вас нет доступа к этой команде")
-            return
+        # if not await admin.check(bot, message.peer_id, message.from_id):
+        #     await message.answer("У вас нет доступа к этой команде")
+        #     return
         await message.answer(bot_message, keyboard=keyboards.get_chat())
 
 

@@ -102,7 +102,7 @@ async def chart_handler(event: MessageEvent):
         raise e
 
 # Обновлять виджет каждые 5 минут
-@bot.loop_wrapper.timer(seconds=5)
+@bot.loop_wrapper.interval(60 * 5)
 async def update_widget():
     await widget.update()
     print("Widget updated")

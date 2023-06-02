@@ -29,7 +29,12 @@ class APIs:
 class VK:
     token: str
     admins: list
+    chat_peer_id: int = None
 
+@dataclass
+class Widget:
+    token: str
+    link: str
 
 @dataclass
 class Config:
@@ -37,6 +42,7 @@ class Config:
     markets: Markets
     api: APIs
     vk: VK
+    widget: VK
 
 
 def load_config(path: str = None):
@@ -60,6 +66,11 @@ def load_config(path: str = None):
         vk=VK(
             token=env.str("VK_TOKEN"),
             admins=list(map(int, env.list("VK_ADMINS"))),
+            chat_peer_id=env.int("VK_CHAT_PEER_ID", None),
+        ),
+        widget=Widget(
+            token=env.str("WIDGET_TOKEN"),
+            link=env.str("WIDGET_LINK"),
         )
     )
 

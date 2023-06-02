@@ -21,7 +21,7 @@ async def fetch_data(session, url):
 # Функция для получения флора и формирования сообщения
 async def get():
     async with aiohttp.ClientSession() as session:
-        async with session.get(config.api.rarible) as resp:
+        async with session.get(config.api.rarible+'floorPrice/?currency=MATIC') as resp:
             data = await resp.json(content_type=None)
             if resp.status != 200:
                 print(f"Error: {resp.status}")
@@ -54,7 +54,7 @@ async def get():
     return bot_message
 
 async def get_stats():
-    url = config.api.rarible
+    url = config.api.rarible + 'stats/?currency=MATIC'
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             data = await resp.json(content_type=None)
@@ -68,7 +68,7 @@ async def get_stats():
 # Отдать голые данные
 async def get_raw():
     async with aiohttp.ClientSession() as session:
-        async with session.get(config.api.rarible) as resp:
+        async with session.get(config.api.rarible + 'floorPrice/?currency=MATIC') as resp:
             data = await resp.json(content_type=None)
             if resp.status != 200:
                 print(f"Error: {resp.status}")

@@ -5,7 +5,7 @@
 # Licensed under https://mit-license.org
 
 # Импорт необходимых модулей
-import os
+import asyncio
 import random
 
 from config import config
@@ -19,6 +19,7 @@ import floor
 import keyboards
 import admin
 import chart
+import widget
 
 
 bot = Bot(token=config.vk.token)
@@ -100,6 +101,11 @@ async def chart_handler(event: MessageEvent):
         await event.show_snackbar("Не удалось отправить график! Возможно, у вас нет диалога с ботом.")
         raise e
 
+# Обновлять виджет каждые 5 минут
+@bot.loop_wrapper.timer(seconds=5)
+async def update_widget():
+    await widget.update()
+    print("Widget updated")
 
 if __name__ == "__main__":
     bot.run_forever()

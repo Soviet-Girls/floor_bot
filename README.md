@@ -34,6 +34,8 @@ docker run -d --name myColl_rfb \
     -e MARKET_OPENSEA="https://opensea.io/collection/yourcollection" \
     -e MARKET_OTHER="https://othermarket.com/yourcollection" \
     -e API_RARIBLE="https://api.rarible.org/v/data/collections/NET:COLLECTION/floorPrice/?currency=CUR" \
+    -e WIDGET_TOKEN="your-vk-widget-token" \
+    -e WIDGET_LINK="https://vk.com/wall-220643723_72" \
     -e VK_TOKEN="your-vk-token" \
     -e VK_ADMINS=1234,5678 \
     ghcr.io/steio-labs/rarible_floor_bot:latest
@@ -54,6 +56,8 @@ services:
       - MARKET_OPENSEA=<https://opensea.io/collection/yourcollection>
       - MARKET_OTHER=<https://othermarket.com/yourcollection>
       - API_RARIBLE=<your-api-link>
+      - WIDGET_TOKEN=<your-vk-widget-token>
+      - WIDGET_LINK=<https://vk.com/wall-220643723_72>
       - VK_TOKEN=<your-vk-token>
       - VK_ADMINS=<admin-id-1>,<admin-id-2>
 ```
@@ -77,7 +81,7 @@ docker compose up -d
 | `VK_TOKEN`           | Токен от группы ВКонтакте                                    |
 | `VK_ADMINS`          | ID админов бота, которые могут не являться администраторами чата (список) |
 
-- `API_RARIBLE` ссылка формируется по следующему правилу `https://api.rarible.org/v0.1/data/collections/` + **`СЕТЬ:`** + **`адрес коллекции в сети Polygon`** + `/floorPrice/?currency=` + **`ТОКЕН`**. В таком случае для сети [Polygon](https://polygon.technology) и коллекции [CryptoSpotty](https://rarible.com/Cryptospotty) ссылка будет выглядеть так: `https://api.rarible.org/v0.1/data/collections/POLYGON:0x0ad52bfd0ddd09f581f0f790fe4f7369e9097712/floorPrice/?currency=MATIC`
+- `API_RARIBLE` ссылка формируется по следующему правилу `https://api.rarible.org/v0.1/data/collections/` + **`СЕТЬ:`** + **`адрес коллекции в сети Polygon`**. В таком случае для сети [Polygon](https://polygon.technology) и коллекции [CryptoSpotty](https://rarible.com/Cryptospotty) ссылка будет выглядеть так: `https://api.rarible.org/v0.1/data/collections/POLYGON:0x0ad52bfd0ddd09f581f0f790fe4f7369e9097712/`
 
 
 

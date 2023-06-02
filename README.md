@@ -56,7 +56,7 @@ services:
       - MARKET_OPENSEA=<https://opensea.io/collection/yourcollection>
       - MARKET_OTHER=<https://othermarket.com/yourcollection>
       - API_RARIBLE=<your-api-link>
-      - WIDGET_TOKEN=<your-vk-widget-token> \
+      - WIDGET_TOKEN=<your-vk-widget-token>
       - WIDGET_LINK=<https://vk.com/wall-220643723_72>
       - VK_TOKEN=<your-vk-token>
       - VK_ADMINS=<admin-id-1>,<admin-id-2>

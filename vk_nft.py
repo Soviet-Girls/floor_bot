@@ -4,7 +4,8 @@ from config import config
 async def get_nfts(user_id):
     url = f"https://api.vk.com/method/nft.getCollection?access_token={config.vk_nft.token}&v=5.131&owner_id={user_id}"
     response = requests.get(url)
-    return response['response']['items']
+    data = response.json()
+    return data['response']['items']
 
 async def check_nft(user_id: int, address: str):
     nfts = await get_nfts(user_id)

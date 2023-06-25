@@ -46,6 +46,7 @@ class Config:
     markets: Markets
     api: APIs
     vk: VK
+    vk_nft: VK_NFT
     widget: VK
 
 

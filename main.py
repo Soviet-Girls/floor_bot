@@ -20,6 +20,7 @@ import keyboards
 import admin
 import chart
 import widget
+import vk_nft
 
 
 bot = Bot(token=config.vk.token)
@@ -100,6 +101,16 @@ async def chart_handler(event: MessageEvent):
     except Exception as e:
         await event.show_snackbar("Не удалось отправить график! Возможно, у вас нет диалога с ботом.")
         raise e
+    
+# Проверяем наличие NFT из коллекции
+# Это тестовая функция для дебага
+@bot.on.message(CommandRule(commands=("/check", "/проверить")))
+async def check_handler(message: Message):
+    address = config.nft.address
+    user_id = message.from_id
+    r = await vk_nft.check_nft(user_id, address)
+    await message.answer(f"Наличие NFT на витрине: {r}")
+
 
 # Обновлять виджет каждые 5 минут
 @bot.loop_wrapper.interval(minutes=5)

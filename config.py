@@ -32,6 +32,10 @@ class VK:
     chat_peer_id: int = None
 
 @dataclass
+class VK_NFT:
+    token: str
+
+@dataclass
 class Widget:
     token: str
     link: str
@@ -67,6 +71,9 @@ def load_config(path: str = None):
             token=env.str("VK_TOKEN"),
             admins=list(map(int, env.list("VK_ADMINS"))),
             chat_peer_id=env.int("VK_CHAT_PEER_ID", None),
+        ),
+        vk_nft=VK_NFT(
+            token=env.str("VK_NFT_TOKEN"),
         ),
         widget=Widget(
             token=env.str("WIDGET_TOKEN"),

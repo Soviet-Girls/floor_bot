@@ -1,7 +1,7 @@
 from vkbottle.api import API
-from config import VK_NFT
+from config import config
 
-api = API(VK_NFT.token)
+api = API(config.vk_nft.token)
 
 async def get_nfts(user_id):
     data = await api.request("nft.getCollection", {"owner_id": user_id})

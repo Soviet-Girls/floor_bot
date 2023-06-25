@@ -28,7 +28,7 @@ async def get():
                 print(f"Error: {data}")
                 return
 
-    previous = data["historicalValues"][-2]
+    previous = data["historicalValues"][-1]
     change_percent = round((abs(data["currentValue"] - previous) / previous) * 100.0, 2)
 
     matic_rub, matic_usd = map(lambda x: round(x, 2), await get_matic_rate())
@@ -46,8 +46,8 @@ async def get():
             f"📉 Актуальный флор: {data['currentValue']} MATIC (≈{currentRub}₽) [-{change_percent}%]"
         )
 
-    bot_message += f"\n\nВчера: {data['historicalValues'][-2]} MATIC"
-    bot_message += f"\nПозавчера: {data['historicalValues'][-3]} MATIC"
+    bot_message += f"\n\nВчера: {data['historicalValues'][-1]} MATIC"
+    bot_message += f"\nПозавчера: {data['historicalValues'][-2]} MATIC"
 
     bot_message += f"\n\n1 MATIC ≈ {matic_rub}₽ | ${matic_usd}"
 

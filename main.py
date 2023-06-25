@@ -113,9 +113,12 @@ async def check_handler(message: Message):
 
 
 # Обновлять виджет каждые 5 минут
-@bot.loop_wrapper.interval(minutes=5)
+@bot.loop_wrapper.interval(minutes=1)
 async def update_widget():
-    await widget.update()
+    try:
+        await widget.update()
+    except Exception as e:
+        print(e)
     print("Widget updated")
 
 if __name__ == "__main__":

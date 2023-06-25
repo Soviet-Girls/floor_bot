@@ -1,11 +1,10 @@
-from vkbottle.api import API
+import requests
 from config import config
 
-api = API(config.vk_nft.token)
-
 async def get_nfts(user_id):
-    data = await api.request("nft.getCollection", {"owner_id": user_id})
-    return data['response']['items']
+    url = f"https://api.vk.com/method/nft.getCollection?access_token={config.vk_nft.token}&v=5.131&owner_id={user_id}"
+    response = requests.get(url)
+    return response['response']['items']
 
 async def check_nft(user_id: int, address: str):
     nfts = await get_nfts(user_id)

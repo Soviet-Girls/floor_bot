@@ -22,6 +22,7 @@ class Markets:
 @dataclass
 class APIs:
     rarible: str
+    raribe_key: str
     coinbase: str = "https://api.coinbase.com/v2"
 
 
@@ -66,6 +67,7 @@ def load_config(path: str = None):
         ),
         api=APIs(
             rarible=env.str("API_RARIBLE"),
+            raribe_key=env.str("RARIBLE_API_KEY"),
             coinbase=env.str("API_COINBASE", "https://api.coinbase.com/v2"),
         ),
         vk=VK(

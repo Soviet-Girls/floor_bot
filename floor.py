@@ -6,6 +6,9 @@ import aiohttp
 from config import config
 from currency import get_matic_rate
 
+headers = {
+    "X-API-KEY": config.api.raribe_key
+}
 
 # Функция для обработки запроса и получения данных от API Rarible
 async def fetch_data(session, url):
@@ -21,7 +24,7 @@ async def fetch_data(session, url):
 # Функция для получения флора и формирования сообщения
 async def get():
     async with aiohttp.ClientSession() as session:
-        async with session.get(config.api.rarible+'floorPrice/?currency=MATIC') as resp:
+        async with session.get(config.api.rarible+'floorPrice/?currency=MATIC', headers=headers) as resp:
             data = await resp.json(content_type=None)
             if resp.status != 200:
                 print(f"Error: {resp.status}")
@@ -56,7 +59,7 @@ async def get():
 async def get_stats():
     url = config.api.rarible + 'stats/?currency=MATIC'
     async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
+        async with session.get(url, headers=headers) as resp:
             data = await resp.json(content_type=None)
             if resp.status != 200:
                 print(f"Error: {resp.status}")
@@ -68,7 +71,7 @@ async def get_stats():
 # Отдать голые данные
 async def get_raw():
     async with aiohttp.ClientSession() as session:
-        async with session.get(config.api.rarible + 'floorPrice/?currency=MATIC') as resp:
+        async with session.get(config.api.rarible + 'floorPrice/?currency=MATIC', headers=headers) as resp:
             data = await resp.json(content_type=None)
             if resp.status != 200:
                 print(f"Error: {resp.status}")

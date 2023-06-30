@@ -15,7 +15,8 @@ def generate(data: dict) -> bytes:
     ]
     # Генерируем график за последние 7 дней
     data["historicalDates"] = data["historicalDates"][-7:]
-    data["historicalValues"] = data["historicalValues"][-7:]
+    data["historicalValues"] = data["historicalValues"][-6:]
+    data["historicalValues"].append(data["currentValue"])
     seaborn.set_theme(style="darkgrid")
     c = seaborn.lineplot(
         data=data,

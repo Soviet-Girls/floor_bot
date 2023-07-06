@@ -21,6 +21,7 @@ def check_owner(address):
     return False
 
 async def get_balance(address):
+    address = Web3.to_checksum_address(address)
     balance = nft_contract.functions.balanceOf(address).call()
     floor_price = await floor.get_raw()
     floor_price = floor_price['currentValue']

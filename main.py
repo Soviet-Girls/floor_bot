@@ -112,7 +112,7 @@ async def wallet_handler(message: Message):
     bot_message += f"👧 NFT на аккаунте: {balance}\n"
     bot_message += f"🪙 Минимальная стоимость:\n"
     bot_message += f"MATIC: {balance_matic}\n"
-    bot_message += f"Рубли: {balance_rub}\n"
+    bot_message += f"Рубли: {balance_rub}\n ₽"
     bot_message += f"Доллары: {balance_usd} $\n"
 
     keyboard = keyboards.get_wallet(address)

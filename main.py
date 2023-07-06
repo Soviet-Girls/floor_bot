@@ -5,7 +5,6 @@
 # Licensed under https://mit-license.org
 
 # Импорт необходимых модулей
-import asyncio
 import random
 
 from config import config
@@ -118,7 +117,16 @@ async def wallet_handler(message: Message):
     keyboard = keyboards.get_wallet(address[0].value)
 
     await message.answer(bot_message, keyboard=keyboard.get_json())
-                    
+
+# Выбрать победителя розыгрыша
+@bot.on.message(CommandRule(commands=("/победитель")))
+async def winner_handler(message: Message):
+    post_id = message.text.split(' ')[1]
+    comments = await bot.api.wall.get_comments(owner_id=-220643723, post_id=post_id, count=100)
+    comments = comments.items
+    comments = [comment for comment in comments if comment.from_id > 0]
+    winner = random.choice(comments)
+    await message.answer(f"Победитель: https://vk.com/id{winner.from_id}")
 
 
 # Обновлять виджет каждые 5 минут

@@ -115,7 +115,7 @@ async def wallet_handler(message: Message):
     bot_message += f"Рубли: {balance_rub} ₽\n"
     bot_message += f"Доллары: {balance_usd} $\n"
 
-    keyboard = keyboards.get_wallet(address)
+    keyboard = keyboards.get_wallet(address[0].value)
 
     await message.answer(bot_message, keyboard=keyboard.get_json())
                     

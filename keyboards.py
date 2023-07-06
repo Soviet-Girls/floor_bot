@@ -52,3 +52,9 @@ def get_chat():
     market_links.add(Callback("📈 График", payload={"command": "chart"}))
 
     return market_links
+
+def get_wallet(wallet):
+    link = f"https://rarible.com/user/{wallet}/owned?filter[collections][]=POLYGON-0x15f4272460062b835ba0abbf7a5e407f3ef425d3"
+    keyboard = Keyboard(inline=True)
+    keyboard.add(OpenLink(link=link, label="Посмотреть на Rarible"))
+    return keyboard

@@ -19,6 +19,7 @@ import keyboards
 import chart
 import widget
 import nft
+import cleaner
 
 bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
@@ -118,25 +119,20 @@ async def wallet_handler(message: Message):
 
     await message.answer(bot_message, keyboard=keyboard.get_json())
 
-# Выбрать победителя розыгрыша
-@bot.on.message(CommandRule(commands=("/победитель")))
-async def winner_handler(message: Message):
-    post_id = message.text.split(' ')[1]
-    comments = await bot.api.wall.get_comments(owner_id=-220643723, post_id=post_id, count=100)
-    comments = comments.items
-    comments = [comment for comment in comments if comment.from_id > 0]
-    winner = random.choice(comments)
-    await message.answer(f"Победитель: https://vk.com/id{winner.from_id}")
+# Принудительная очистка
+@bot.on.message(CommandRule(commands=("/clean", "/очистить")))
+async def clean_handler(message: Message):
+    await cleaner.start()
+    await message.answer("Очистка завершена!")
 
-
-# Обновлять виджет каждые 5 минут
+# Выполнять каждую минуту
 @bot.loop_wrapper.interval(minutes=1)
-async def update_widget():
+async def update():
     try:
         await widget.update()
+        await cleaner.start()
     except Exception as e:
         print(e)
-    print("Widget updated")
 
 if __name__ == "__main__":
     bot.run_forever()

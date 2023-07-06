@@ -122,7 +122,7 @@ async def wallet_handler(message: Message):
 # Принудительная очистка
 @bot.on.message(CommandRule(commands=("/clean", "/очистить")))
 async def clean_handler(message: Message):
-    await cleaner.start()
+    await cleaner.start(bot=bot)
     await message.answer("Очистка завершена!")
 
 # Выполнять каждую минуту

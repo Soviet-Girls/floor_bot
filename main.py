@@ -105,13 +105,13 @@ async def chart_handler(event: MessageEvent):
 async def wallet_handler(message: Message):
     address = await bot.api.storage.get("wallet", user_id=message.from_id)
     
-    if address[0].key == "":
+    if address[0].value == "":
         await message.answer("👛 Кошелек не привязан! Посетите auth.sovietgirls.su")
         return
     
-    balance, balance_matic, balance_rub, balance_usd = await nft.get_balance(address[0].key)
+    balance, balance_matic, balance_rub, balance_usd = await nft.get_balance(address[0].value)
     
-    bot_message = f"👛 Адрес кошелька: {address[0].key}\n\n"
+    bot_message = f"👛 Адрес кошелька: {address[0].value}\n\n"
     bot_message += f"👧 NFT на аккаунте: {balance}\n"
     bot_message += f"🪙 Минимальная стоимость:\n"
     bot_message += f"{balance_matic} MATIC\n"

@@ -102,14 +102,14 @@ async def chart_handler(event: MessageEvent):
         await event.show_snackbar("Не удалось отправить график! Возможно, у вас нет диалога с ботом.")
         raise e
     
-# Проверяем наличие NFT из коллекции
-# Это тестовая функция для дебага
-@bot.on.message(CommandRule(commands=("/check", "/проверить")))
-async def check_handler(message: Message):
-    address = config.nft.address
-    user_id = message.from_id
-    r = await vk_nft.check_nft(user_id, address)
-    await message.answer(f"Наличие NFT на витрине: {r}")
+# Получить адрес кошелька
+@bot.on.message(CommandRule(commands=("/кошелек", "/кошелёк", "/wallet")))
+async def wallet_handler(message: Message):
+    address = await bot.api.storage.get("wallet", user_id=message.from_id)
+    if address[0] == "":
+        await message.answer("👛 Кошелек не привязан! Посетите auth.sovietgirls.su")
+    else:
+        await message.answer(f"👛 {address}")
 
 
 # Обновлять виджет каждые 5 минут

@@ -47,4 +47,4 @@ async def start(bot: Bot):
             random_id=random.randint(0, 2 ** 64)
         )
 
-        await bot.api.messages.remove_chat_user(chat_id=peer_id, user_id=user_id)
+        await bot.api.messages.remove_chat_user(chat_id=peer_id-2000000000, user_id=user_id)

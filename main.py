@@ -17,11 +17,9 @@ from vkbottle.tools import PhotoMessageUploader
 
 import floor
 import keyboards
-import admin
 import chart
 import widget
-import vk_nft
-
+import nft
 
 bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
@@ -106,10 +104,22 @@ async def chart_handler(event: MessageEvent):
 @bot.on.message(CommandRule(commands=("/кошелек", "/кошелёк", "/wallet")))
 async def wallet_handler(message: Message):
     address = await bot.api.storage.get("wallet", user_id=message.from_id)
-    if address[0] == "":
+    
+    if address[0].key == "":
         await message.answer("👛 Кошелек не привязан! Посетите auth.sovietgirls.su")
-    else:
-        await message.answer(f"👛 {address}")
+        return
+    
+    balance, balance_matic, balance_rub, balance_usd = await nft.get_balance(address[0].key)
+    
+    bot_message = f"👛 Адрес кошелька: {address[0].key}\n\n"
+    bot_message += f"👧 NFT на аккаунте: {balance}\n"
+    bot_message += f"🪙 Минимальная стоимость:\n"
+    bot_message += f"{balance_matic} MATIC\n"
+    bot_message += f"{balance_rub} ₽\n"
+    bot_message += f"{balance_usd} $\n"
+
+    await message.answer(bot_message)
+                    
 
 
 # Обновлять виджет каждые 5 минут

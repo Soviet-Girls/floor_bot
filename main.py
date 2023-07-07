@@ -130,7 +130,7 @@ async def clean_handler(message: Message):
 async def update():
     try:
         await widget.update()
-        await cleaner.start()
+        await cleaner.start(bot=bot)
     except Exception as e:
         print(e)
 

@@ -21,7 +21,8 @@ async def start(bot: Bot):
         if wallet == "":
             banlist.append([member.member_id, "no wallet"])
             continue
-        if nft.balance_of(wallet) == 0:
+        balance = await nft.balance_of(wallet)
+        if balance == 0:
             banlist.append([member.member_id, "no NFT"])
             continue
         try:

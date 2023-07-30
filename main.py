@@ -122,7 +122,7 @@ async def wallet_handler(message: Message):
 
     keyboard = keyboards.get_wallet(address[0].value)
 
-    await bot.api.messages.edit(peer_id=message.peer_id, conversation_message_id=m, message=bot_message, keyboard=keyboard.get_json())
+    await bot.api.messages.edit(peer_id=message.peer_id, message_id=m, message=bot_message, keyboard=keyboard.get_json())
     # await message.answer(bot_message, keyboard=keyboard.get_json())
 
 # Принудительная очистка

@@ -68,7 +68,11 @@ async def get_item_floor_price(item_id: int, collection: str = "POLYGON:0x15f427
     traits_price = await get_traits_price()
 
     price = 0
-    traits = response['meta']['attributes']
+    try:
+        traits = response['meta']['attributes']
+    except KeyError:
+        print(response)
+        return {'price': 0, 'largest_trait': None, 'traits': []}
     item_traits_price = []
     for trait in traits:
         for value in traits_price[trait['key']]:

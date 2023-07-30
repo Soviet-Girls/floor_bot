@@ -113,8 +113,9 @@ async def wallet_handler(message: Message):
         await message.answer("👛 Кошелек не привязан! Посетите auth.sovietgirls.su")
         return
     balance, balance_matic, balance_rub, balance_usd = await nft.get_balance(address[0].value)
+    nft_count = await nft.balance_of(address[0].value)
     bot_message = f"👛 Адрес кошелька: {address[0].value}\n\n"
-    bot_message += f"👧 NFT на аккаунте: {balance}\n"
+    bot_message += f"👧 NFT на аккаунте: {nft_count}\n"
     bot_message += f"🪙 Минимальная стоимость:\n"
     bot_message += f"MATIC: {balance_matic}\n"
     bot_message += f"Рубли: {balance_rub} ₽\n"

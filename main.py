@@ -104,7 +104,9 @@ async def chart_handler(event: MessageEvent):
 @bot.on.message(CommandRule(commands=("/кошелек", "/кошелёк", "/wallet")))
 async def wallet_handler(message: Message):
 
-    m = await message.answer("👛 Пожалуйста, подождите...")
+    m = await bot.api.messages.send(peer_id=message.peer_id, 
+                                message="👛 Пожалуйста, подождите...", 
+                                random_id=random.randint(0, 2 ** 64))
 
     address = await bot.api.storage.get("wallet", user_id=message.from_id)
     if address[0].value == "":

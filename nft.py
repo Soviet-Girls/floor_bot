@@ -3,6 +3,8 @@
 import floor
 import currency
 
+import real_price
+
 from web3 import Web3
 from web3.eth import AsyncEth
 import abi
@@ -29,11 +31,18 @@ async def balance_of(address):
     return balance
 
 async def get_balance(address):
-    balance = await balance_of(address)
-    floor_price = await floor.get_raw()
-    floor_price = floor_price['currentValue']
+    
+    # balance = await balance_of(address)
+    # floor_price = await floor.get_raw()
+    # floor_price = floor_price['currentValue']
+    # matic_rub, matic_usd = await currency.get_matic_rate()
+    # balance_matic = balance * floor_price
+    # balance_rub = round(balance * floor_price * matic_rub, 2)
+    # balance_usd = round(balance * floor_price * matic_usd, 2)
+
+    balance = await real_price.get_balance(address)
     matic_rub, matic_usd = await currency.get_matic_rate()
-    balance_matic = balance * floor_price
-    balance_rub = round(balance * floor_price * matic_rub, 2)
-    balance_usd = round(balance * floor_price * matic_usd, 2)
+    balance_matic = balance
+    balance_rub = round(balance * matic_rub, 2)
+    balance_usd = round(balance * matic_usd, 2)
     return balance, balance_matic, balance_rub, balance_usd

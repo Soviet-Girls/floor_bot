@@ -103,6 +103,9 @@ async def chart_handler(event: MessageEvent):
 # Получить адрес кошелька
 @bot.on.message(CommandRule(commands=("/кошелек", "/кошелёк", "/wallet")))
 async def wallet_handler(message: Message):
+
+    m = await message.answer("👛 Пожалуйста, подождите...")
+
     address = await bot.api.storage.get("wallet", user_id=message.from_id)
     if address[0].value == "":
         await message.answer("👛 Кошелек не привязан! Посетите auth.sovietgirls.su")
@@ -117,7 +120,8 @@ async def wallet_handler(message: Message):
 
     keyboard = keyboards.get_wallet(address[0].value)
 
-    await message.answer(bot_message, keyboard=keyboard.get_json())
+    await bot.api.messages.edit(peer_id=message.peer_id, conversation_message_id=m, message=bot_message, keyboard=keyboard.get_json())
+    # await message.answer(bot_message, keyboard=keyboard.get_json())
 
 # Принудительная очистка
 @bot.on.message(CommandRule(commands=("/clean", "/очистить")))

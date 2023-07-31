@@ -69,7 +69,7 @@ async def get_item_floor_price(item_id: int, collection: str = "POLYGON:0x15f427
         nft_traits = response['meta']['attributes']
     except KeyError:
         floor_price = await floor.get_raw()
-        return {'price': floor_price, 'largest_trait': None, 'traits': []}
+        return {'price': floor_price['currentValue'], 'largest_trait': None, 'traits': []}
     traits_prices = await get_traits_price()
 
     price = 0

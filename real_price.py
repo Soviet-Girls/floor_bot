@@ -65,23 +65,21 @@ async def get_item_floor_price(item_id: int, collection: str = "POLYGON:0x15f427
         async with session.get(f"https://api.rarible.org/v0.1/items/{item_id}") as response:
             response = await response.json()
     
-    traits_price = await get_traits_price()
+    nft_traits = response['meta']['attributes']
+    traits_prices = await get_traits_price()
 
     price = 0
-    try:
-        traits = response['meta']['attributes']
-    except KeyError:
-        print(response)
-        return {'price': 0, 'largest_trait': None, 'traits': []}
-    item_traits_price = []
-    for trait in traits:
-        for value in traits_price[trait['key']]:
-            if value['value'] == trait['value']:
-                item_traits_price.append({'key': trait['key'], 'value': trait['value'], 'price': value['price']})
-                if value['price'] > price:
-                    price = value['price']
-                    largest_trait = {'key': trait['key'], 'value': trait['value']}
-    return {'price': price, 'largest_trait': largest_trait, 'traits': item_traits_price}
+    nft_traits_prices = []
+    largest_trait = None
+    for trait in nft_traits:
+        for trait_value in traits_prices[trait['key']]:
+            if trait_value['value'] == trait['value']:
+                trait_value['key'] = trait['key']
+                nft_traits_prices.append(trait_value)
+                if price < trait_value['price']:
+                    price = trait_value['price']
+                    largest_trait = trait_value
+    return {'price': price, 'largest_trait': largest_trait, 'traits': nft_traits_prices}
 
 async def get_balance(address):
     tokens = tokens_on_address.get(address)

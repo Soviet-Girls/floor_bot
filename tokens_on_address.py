@@ -1,5 +1,6 @@
 from web3 import Web3
 import concurrent.futures
+from functools import partial
 
 import abi
 
@@ -18,16 +19,16 @@ def get(address: str):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = []
         for i in range(total_supply):
-            futures.append(executor.submit(get_owner, i))
+            futures.append(executor.submit(get_owner, partial(nft_contract.functions.ownerOf, i), i))
         for future in concurrent.futures.as_completed(futures):
-            owner = future.result()
+            owner, i = future.result()
             if owner and owner.lower() == address.lower():
                 tokens.append(i)
     return tokens
 
-def get_owner(i):
+def get_owner(ownerOf, i):
     try:
-        owner = nft_contract.functions.ownerOf(i).call()
+        owner = ownerOf().call()
     except:
         owner = None
-    return owner
+    return owner, i

@@ -2,6 +2,7 @@ import aiohttp
 import time
 
 import tokens_on_address
+import floor
 
 traits = None
 traits_price = None
@@ -64,8 +65,11 @@ async def get_item_floor_price(item_id: int, collection: str = "POLYGON:0x15f427
     async with aiohttp.ClientSession() as session:
         async with session.get(f"https://api.rarible.org/v0.1/items/{item_id}") as response:
             response = await response.json()
-    
-    nft_traits = response['meta']['attributes']
+    try:
+        nft_traits = response['meta']['attributes']
+    except KeyError:
+        floor_price = await floor.get_raw()
+        return {'price': floor_price, 'largest_trait': None, 'traits': []}
     traits_prices = await get_traits_price()
 
     price = 0

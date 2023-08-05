@@ -14,13 +14,10 @@ from vkbottle import GroupEventType, ABCRule
 from vkbottle.bot import Bot, Message, MessageEvent
 from vkbottle.tools import PhotoMessageUploader
 
-import data.floor as floor
-import vk.keyboards as keyboards
-import data.chart as chart
-import vk.widget as widget
-import data.nft as nft
-import vk.cleaner as cleaner
-import vk.chat_info as chat_info
+from data import floor, nft, chart, dialogue
+from vk import keyboards, widget, cleaner, chat_info
+
+from vk.rules import ChitChatRule
 
 bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
@@ -134,6 +131,12 @@ async def wallet_handler(message: Message):
 async def clean_handler(message: Message):
     await cleaner.start(bot=bot)
     await message.answer("Очистка завершена!")
+
+# Болталка
+@bot.on.message(ChitChatRule())
+async def chit_chat_handler(message: Message):
+    bot_message = await dialogue.get_answer(message.text, message.peer_id)
+    await message.answer(bot_message)
 
 # Выполнять каждую минуту
 @bot.loop_wrapper.interval(minutes=1)

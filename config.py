@@ -31,6 +31,7 @@ class VK:
     token: str
     admins: list
     chat_peer_id: int = None
+    group_id: int = 220643723
 
 @dataclass
 class Widget:
@@ -69,6 +70,7 @@ def load_config(path: str = None):
             token=env.str("VK_TOKEN"),
             admins=list(map(int, env.list("VK_ADMINS"))),
             chat_peer_id=env.int("VK_CHAT_PEER_ID", None),
+            group_id=env.int("VK_GROUP_ID", 220643723),
         ),
         widget=Widget(
             token=env.str("WIDGET_TOKEN"),

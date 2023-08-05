@@ -14,13 +14,13 @@ from vkbottle import GroupEventType, ABCRule
 from vkbottle.bot import Bot, Message, MessageEvent
 from vkbottle.tools import PhotoMessageUploader
 
-import floor
-import keyboards
-import chart
-import widget
-import nft
-import cleaner
-import chat_info
+import data.floor as floor
+import vk.keyboards as keyboards
+import data.chart as chart
+import vk.widget as widget
+import data.nft as nft
+import vk.cleaner as cleaner
+import vk.chat_info as chat_info
 
 bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)

@@ -15,13 +15,19 @@ from vkbottle.bot import Bot, Message, MessageEvent
 from vkbottle.tools import PhotoMessageUploader
 
 from data import floor, nft, chart, dialogue
-from vk import keyboards, widget, cleaner, chat_info
+from vk import keyboards, widget, cleaner, chat_info, stickers
+
+import formating
 
 from vk.rules import ChitChatRule
 
 bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
 
+def generate_reply(ans: Message):
+    string = f'"peer_id": {ans.peer_id}, "conversation_message_ids": [{ans.conversation_message_id}], \
+        "is_reply": 1'
+    return "{" + string + "}"
 
 # Правило для команды
 class CommandRule(ABCRule):
@@ -135,8 +141,18 @@ async def clean_handler(message: Message):
 # Болталка
 @bot.on.message(ChitChatRule())
 async def chit_chat_handler(message: Message):
-    bot_message = await dialogue.get_answer(message.text, message.peer_id)
-    await message.answer(bot_message)
+    answer = await dialogue.get_answer(message.text, message.peer_id)
+    if message.peer_id != message.from_id:
+        await message.answer(formating.remove_emoji(answer), forward=generate_reply(message))
+    else:
+        await message.answer(formating.remove_emoji(answer))
+
+    emoji = formating.find_emoji(answer)
+    if emoji:
+        sticker = stickers.get_sticker(emoji)
+        if sticker:
+            await message.answer("", sticker_id=sticker)
+    
 
 # Выполнять каждую минуту
 @bot.loop_wrapper.interval(minutes=1)

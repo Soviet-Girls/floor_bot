@@ -20,6 +20,7 @@ import chart
 import widget
 import nft
 import cleaner
+import chat_info
 
 bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
@@ -140,6 +141,7 @@ async def update():
     try:
         await widget.update()
         await cleaner.start(bot=bot)
+        await chat_info.check_stats()
     except Exception as e:
         print(e)
 

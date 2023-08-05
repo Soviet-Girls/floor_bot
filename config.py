@@ -44,7 +44,7 @@ class Config:
     markets: Markets
     api: APIs
     vk: VK
-    widget: VK
+    widget: Widget
 
 
 def load_config(path: str = None):

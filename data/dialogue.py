@@ -38,7 +38,7 @@ def get_answer(text: str, peer_id: int):
     answer = answer.choices[0].message.content
     context[str(peer_id)].append({"role": "assistant", "content": answer})
     # оставить только 10 последних сообщений в контексте
-    context[str(peer_id)] = context[str(peer_id)][-10:]
+    context[str(peer_id)] = context[str(peer_id)][-5:]
     if context[str(peer_id)][0]['role'] == 'assistant':
         context[str(peer_id)].pop(0)
     context[str(peer_id)][0]['content'] = base_prompt + context[str(peer_id)][0]['content']

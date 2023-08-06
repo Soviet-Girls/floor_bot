@@ -143,11 +143,14 @@ async def clean_handler(message: Message):
 async def chit_chat_handler(message: Message):
     answer = dialogue.get_answer(message.text, message.peer_id)
 
-    if answer == "OPERATOR_CALL":
+    if answer == "OPERATOR_CALL" and message.peer_id == message.from_id:
         await message.answer("👮‍♂️ Оператор вызван!")
         await bot.api.messages.send(peer_id=434356505, 
                                     message=f"👮‍♂️ Оператор вызван в чате https://vk.com/gim220643723?sel={message.peer_id}",
                                     random_id=random.randint(0, 2 ** 64))
+        return
+    elif answer == "OPERATOR_CALL":
+        await message.answer("Я не могу ответить на этот вопрос. Попробуйте сформулировать его иначе.")
         return
 
     if answer == "FLOOR_CALL":

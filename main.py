@@ -154,6 +154,13 @@ async def clean_handler(message: Message):
 # Болталка
 @bot.on.message(ChitChatRule())
 async def chit_chat_handler(message: Message):
+    address = await bot.api.storage.get("wallet", user_id=message.from_id)
+    if address[0].value == "":
+        return
+    owner = await nft.check_owner(address[0].value)
+    if not owner:
+        return
+
     await bot.api.messages.set_activity(type="typing", peer_id=message.peer_id)
     answer = dialogue.get_answer(message.text, message.peer_id)
 

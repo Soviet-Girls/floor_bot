@@ -141,7 +141,7 @@ async def clean_handler(message: Message):
 # Болталка
 @bot.on.message(ChitChatRule())
 async def chit_chat_handler(message: Message):
-    answer = await dialogue.get_answer(message.text, message.peer_id)
+    answer = dialogue.get_answer(message.text, message.peer_id)
 
     if answer == "OPERATOR_CALL":
         await message.answer("👮‍♂️ Оператор вызван!")

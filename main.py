@@ -181,6 +181,10 @@ async def chit_chat_handler(message: Message):
     if "FLOOR_CALL" in answer:
         await now_handler(message)
         return
+    
+    if "WALLET_CALL" in answer:
+        await wallet_handler(message)
+        return
 
     if message.peer_id != message.from_id:
         await message.answer(

@@ -39,12 +39,17 @@ class Widget:
     link: str
 
 @dataclass
+class OpenAI:
+    api_key: str
+
+@dataclass
 class Config:
     nft: Collection
     markets: Markets
     api: APIs
     vk: VK
     widget: Widget
+    openai: OpenAI
 
 
 def load_config(path: str = None):
@@ -75,6 +80,9 @@ def load_config(path: str = None):
         widget=Widget(
             token=env.str("WIDGET_TOKEN"),
             link=env.str("WIDGET_LINK"),
+        ),
+        openai=OpenAI(
+            api_key=env.str("OPENAI_API_KEY"),
         )
     )
 

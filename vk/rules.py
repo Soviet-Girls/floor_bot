@@ -11,8 +11,8 @@ class ChitChatRule(ABCRule[Message]):
         has_prefix = any(message.text.startswith(prefix) for prefix in self.prefixes)
         from_bot = message.from_id < 0
 
-        if message.peer_id != config.vk.chat_peer_id:
-            return False
+        # if message.peer_id != config.vk.chat_peer_id:
+        #     return False
 
         if has_prefix or from_bot:
             return False

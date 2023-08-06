@@ -142,6 +142,14 @@ async def clean_handler(message: Message):
 @bot.on.message(ChitChatRule())
 async def chit_chat_handler(message: Message):
     answer = await dialogue.get_answer(message.text, message.peer_id)
+
+    if answer == "OPERATOR_CALL":
+        await message.answer("👮‍♂️ Оператор вызван!")
+        await bot.api.messages.send(peer_id=434356505, 
+                                    message=f"👮‍♂️ Оператор вызван в чате https://vk.com/gim220643723?sel={message.peer_id}",
+                                    random_id=random.randint(0, 2 ** 64))
+        return
+
     if message.peer_id != message.from_id:
         await message.answer(formating.remove_emoji(answer), forward=generate_reply(message))
     else:

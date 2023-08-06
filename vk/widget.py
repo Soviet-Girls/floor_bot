@@ -5,6 +5,7 @@ from config import config
 
 community_bot = Bot(token=config.widget.token)
 
+
 async def generate_code():
     stats = await get_stats()
     print(stats)
@@ -17,16 +18,23 @@ async def generate_code():
             {"text": "Объем", "align": "center"},
             {"text": "Флор", "align": "center"},
             {"text": "Токенов", "align": "center"},
-            {"text": "Владельцев", "align": "center"}
+            {"text": "Владельцев", "align": "center"},
         ],
         "body": [
-            [{"text": f"{stats['volume']} MATIC",},
-            {"text": f"{stats['floorPrice']} MATIC"},
-            {"text": f"{stats['items']}"},
-            {"text": f"{stats['owners']}",}]
-        ]
+            [
+                {
+                    "text": f"{stats['volume']} MATIC",
+                },
+                {"text": f"{stats['floorPrice']} MATIC"},
+                {"text": f"{stats['items']}"},
+                {
+                    "text": f"{stats['owners']}",
+                },
+            ]
+        ],
     }
     return f"return {widget};"
+
 
 async def update():
     code = await generate_code()

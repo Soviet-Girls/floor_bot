@@ -3,9 +3,10 @@ from vkbottle.bot import Message
 
 from config import config
 
+
 class ChitChatRule(ABCRule[Message]):
     def __init__(self):
-        self.prefixes = ['/']
+        self.prefixes = ["/"]
 
     async def check(self, message: Message) -> bool:
         has_prefix = any(message.text.startswith(prefix) for prefix in self.prefixes)
@@ -28,4 +29,3 @@ class ChitChatRule(ABCRule[Message]):
                 return True
 
         return False
-    

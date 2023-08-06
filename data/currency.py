@@ -13,6 +13,10 @@ async def get_matic_rate() -> Tuple[float, float]:
         Tuple[float, float]: A tuple containing the exchange rates of MATIC to RUB and USD.
     """
     async with aiohttp.ClientSession() as session:
-        async with session.get(config.api.coinbase + "/exchange-rates?currency=MATIC") as response:
+        async with session.get(
+            config.api.coinbase + "/exchange-rates?currency=MATIC"
+        ) as response:
             data = await response.json()
-            return float(data['data']['rates']['RUB']), float(data['data']['rates']['USD'])
+            return float(data["data"]["rates"]["RUB"]), float(
+                data["data"]["rates"]["USD"]
+            )

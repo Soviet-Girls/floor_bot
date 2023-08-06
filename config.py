@@ -10,7 +10,7 @@ from environs import Env
 class Collection:
     name: str
     address: str = None
-    
+
 
 @dataclass
 class Markets:
@@ -33,14 +33,17 @@ class VK:
     chat_peer_id: int = None
     group_id: int = 220643723
 
+
 @dataclass
 class Widget:
     token: str
     link: str
 
+
 @dataclass
 class OpenAI:
     api_key: str
+
 
 @dataclass
 class Config:
@@ -83,7 +86,8 @@ def load_config(path: str = None):
         ),
         openai=OpenAI(
             api_key=env.str("OPENAI_API_KEY"),
-        )
+        ),
     )
+
 
 config = load_config()

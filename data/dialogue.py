@@ -1,4 +1,3 @@
-
 import openai
 from config import config
 
@@ -24,6 +23,7 @@ NFT, Web3 и блокчейном.
 
 Вот первый вопрос от пользователя:\n"""
 
+
 def get_answer(text: str, peer_id: int):
     try:
         context[str(peer_id)].append({"role": "user", "content": text})
@@ -31,15 +31,15 @@ def get_answer(text: str, peer_id: int):
         context[str(peer_id)] = [{"role": "user", "content": base_prompt + text}]
 
     answer = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=context[str(peer_id)],
-        temperature=0.85
+        model="gpt-3.5-turbo", messages=context[str(peer_id)], temperature=0.85
     )
     answer = answer.choices[0].message.content
     context[str(peer_id)].append({"role": "assistant", "content": answer})
     # оставить только 10 последних сообщений в контексте
     context[str(peer_id)] = context[str(peer_id)][-5:]
-    if context[str(peer_id)][0]['role'] == 'assistant':
+    if context[str(peer_id)][0]["role"] == "assistant":
         context[str(peer_id)].pop(0)
-    context[str(peer_id)][0]['content'] = base_prompt + context[str(peer_id)][0]['content']
+    context[str(peer_id)][0]["content"] = (
+        base_prompt + context[str(peer_id)][0]["content"]
+    )
     return answer

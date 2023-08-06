@@ -160,9 +160,12 @@ async def chit_chat_handler(message: Message):
     owner = await nft.check_owner(address[0].value)
     if not owner:
         return
+    
+    user = await bot.api.users.get(user_ids=message.from_id)
+    user_name = f"{user[0].first_name}"
 
     await bot.api.messages.set_activity(type="typing", peer_id=message.peer_id)
-    answer = dialogue.get_answer(message.text, message.peer_id)
+    answer = dialogue.get_answer(message.text, message.peer_id, user_name)
 
     if "OPERATOR_CALL" in answer and message.peer_id == message.from_id:
         await message.answer("👮‍♂️ Оператор вызван!")

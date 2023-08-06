@@ -150,6 +150,10 @@ async def chit_chat_handler(message: Message):
                                     random_id=random.randint(0, 2 ** 64))
         return
 
+    if answer == "FLOOR_CALL":
+        await now_handler(message)
+        return
+
     if message.peer_id != message.from_id:
         await message.answer(formating.remove_emoji(answer), forward=generate_reply(message))
     else:

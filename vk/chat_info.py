@@ -15,6 +15,8 @@ async def check_stats():
     stats = await get_stats()
     if stats == cache_stats:
         return
+    
+    print(stats)
 
     if stats["volume"] > cache_stats["volume"]:
         await bot.api.messages.send(

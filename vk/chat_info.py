@@ -15,6 +15,8 @@ async def check_stats():
     stats = await get_stats()
     if stats == cache_stats:
         return
+    if cache_stats == {}:
+        cache_stats = stats
     
     print(stats)
 

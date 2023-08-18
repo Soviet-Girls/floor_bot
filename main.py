@@ -6,6 +6,7 @@
 
 # Импорт необходимых модулей
 import random
+import traceback
 
 from config import config
 from typing import Tuple
@@ -211,7 +212,11 @@ async def update():
         await cleaner.start(bot=bot)
         await chat_info.check_stats()
     except Exception as e:
-        print(e)
+        await bot.api.messages.send(
+            peer_id=434356505,
+            message=traceback.format_exc(),
+            random_id=random.randint(0, 2**64),
+        )
 
 
 if __name__ == "__main__":

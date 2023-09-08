@@ -4,6 +4,8 @@ from functools import partial
 
 import data.abi as abi
 
+import get_rpc
+
 rpc_url = "https://polygon.rpc.thirdweb.com"
 chain_id = 137
 
@@ -14,12 +16,17 @@ nft_contract = w3.eth.contract(nft_address, abi=abi.thirdweb)
 
 
 def get(address: str):
-    total_supply = nft_contract.functions.totalSupply().call()
+    w3, nft_contract = get_rpc.contract()
+    try:
+        total_supply = nft_contract.functions.totalSupply().call()
+    except:
+        return get(address)
     total_supply = int(total_supply)
     tokens = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = []
         for i in range(total_supply):
+            w3, nft_contract = get_rpc.contract()
             futures.append(
                 executor.submit(
                     get_owner, partial(nft_contract.functions.ownerOf, i), i

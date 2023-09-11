@@ -13,8 +13,7 @@ async def check_owner(address):
     try:
         address = w3.to_checksum_address(address)
         balance = await nft_contract.functions.balanceOf(address).call()
-    except Exception as ex:
-        raise ex
+    except:
         return await check_owner(address)
     if balance > 0:
         return True
@@ -26,8 +25,7 @@ async def balance_of(address):
     try:
         address = w3.to_checksum_address(address)
         balance = await nft_contract.functions.balanceOf(address).call()
-    except Exception as ex:
-        raise ex
+    except:
         return await balance_of(address)
     return balance
 

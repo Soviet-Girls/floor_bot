@@ -21,7 +21,6 @@ rpc_list = [
     'https://polygon.meowrpc.com', 
     'https://polygon.drpc.org', 
     'https://gateway.tenderly.co/public/polygon', 
-    'https://api.zan.top/node/v1/polygon/mainnet/public', 
     'https://polygon.gateway.tenderly.co', 
     'https://rpc.ankr.com/polygon', 
     'https://polygon.api.onfinality.io/public',

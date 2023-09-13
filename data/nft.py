@@ -1,32 +1,29 @@
 # Получить количество NFT на аккаунте и их примерную стоимость
 
+from web3 import Web3
+from web3.eth import AsyncEth
+
+import data.abi as abi
 import data.floor as floor
 import data.currency as currency
-
 import data.real_price as real_price
 
-import get_rpc
+from config import RPC
 
+w3 = Web3(Web3.AsyncHTTPProvider(RPC.address), modules={"eth": (AsyncEth,)}, middlewares=[])
+nft_contract = w3.eth.contract("0x15F4272460062b835Ba0abBf7A5E407F3EF425d3", abi=abi.thirdweb)
 
 async def check_owner(address):
-    w3, nft_contract = get_rpc.async_contract()
-    try:
-        address = w3.to_checksum_address(address)
-        balance = await nft_contract.functions.balanceOf(address).call()
-    except:
-        return await check_owner(address)
+    address = w3.to_checksum_address(address)
+    balance = await nft_contract.functions.balanceOf(address).call()
     if balance > 0:
         return True
     return False
 
 
 async def balance_of(address):
-    w3, nft_contract = get_rpc.async_contract()
-    try:
-        address = w3.to_checksum_address(address)
-        balance = await nft_contract.functions.balanceOf(address).call()
-    except:
-        return await balance_of(address)
+    address = w3.to_checksum_address(address)
+    balance = await nft_contract.functions.balanceOf(address).call()
     return balance
 
 

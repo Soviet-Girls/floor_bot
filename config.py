@@ -44,6 +44,10 @@ class Widget:
 class OpenAI:
     api_key: str
 
+@dataclass
+class RPC:
+    address: str
+
 
 @dataclass
 class Config:
@@ -53,6 +57,7 @@ class Config:
     vk: VK
     widget: Widget
     openai: OpenAI
+    rpc: RPC
 
 
 def load_config(path: str = None):
@@ -87,6 +92,9 @@ def load_config(path: str = None):
         openai=OpenAI(
             api_key=env.str("OPENAI_API_KEY"),
         ),
+        rpc=RPC(
+            address=env.str("RPC_ADDRESS")
+        )
     )
 
 

@@ -10,7 +10,7 @@ import data.real_price as real_price
 
 from config import config
 
-w3 = Web3(Web3.AsyncHTTPProvider(config.RPC.address), modules={"eth": (AsyncEth,)}, middlewares=[])
+w3 = Web3(Web3.AsyncHTTPProvider(config.rpc.address), modules={"eth": (AsyncEth,)}, middlewares=[])
 nft_contract = w3.eth.contract("0x15F4272460062b835Ba0abBf7A5E407F3EF425d3", abi=abi.thirdweb)
 
 async def check_owner(address):

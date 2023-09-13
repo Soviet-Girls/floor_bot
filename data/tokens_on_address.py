@@ -5,7 +5,7 @@ from functools import partial
 import data.abi as abi
 from config import config
 
-w3 = Web3(Web3.HTTPProvider(config.RPC.address), middlewares=[])
+w3 = Web3(Web3.HTTPProvider(config.rpc.address), middlewares=[])
 nft_contract = w3.eth.contract("0x15F4272460062b835Ba0abBf7A5E407F3EF425d3", abi=abi.thirdweb)
 
 def get(address: str):

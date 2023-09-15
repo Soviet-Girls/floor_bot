@@ -139,7 +139,7 @@ async def wallet_handler(message: Message):
     staking_count = await staking.balance_of(address[0].value)
     if staking_count > 0:
         bot_message += f"⛏️ NFT в стейкинге: {staking_count}\n"
-        bot_message += f"({staking_count*1.4} SG₽/Час)"
+        bot_message += f"({round(staking_count*1.4,2)} SG₽/Час)"
 
     keyboard = keyboards.get_wallet(address[0].value)
 

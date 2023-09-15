@@ -15,7 +15,7 @@ from vkbottle import GroupEventType, ABCRule
 from vkbottle.bot import Bot, Message, MessageEvent
 from vkbottle.tools import PhotoMessageUploader
 
-from data import floor, nft, chart, dialogue
+from data import floor, nft, chart, dialogue, staking, rubles
 from vk import keyboards, widget, cleaner, chat_info, stickers
 
 import formating
@@ -127,12 +127,19 @@ async def wallet_handler(message: Message):
         address[0].value
     )
     nft_count = await nft.balance_of(address[0].value)
-    bot_message = f"👛 Адрес кошелька: {address[0].value}\n\n"
+    sgr_count = await rubles.balance_of(address[0].value)
+    bot_message = f"👛 Адрес кошелька: {address[0].value}\n"
+    bot_message += f"{sgr_count} SG₽\n\n"
     bot_message += f"👧 NFT на аккаунте: {nft_count}\n"
     bot_message += f"🪙 Минимальная стоимость:\n"
     bot_message += f"MATIC: {balance_matic}\n"
     bot_message += f"Рубли: {balance_rub} ₽\n"
-    bot_message += f"Доллары: {balance_usd} $\n"
+    bot_message += f"Доллары: {balance_usd} $\n\n"
+
+    staking_count = await staking.balance_of(address[0].value)
+    if staking_count > 0:
+        bot_message += f"⛏️ NFT в стейкинге: {staking_count}\n"
+        bot_message += f"({staking_count*1.4} SG₽/Час)"
 
     keyboard = keyboards.get_wallet(address[0].value)
 

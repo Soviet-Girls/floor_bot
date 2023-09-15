@@ -129,7 +129,7 @@ async def wallet_handler(message: Message):
     nft_count = await nft.balance_of(address[0].value)
     sgr_count = await rubles.balance_of(address[0].value)
     bot_message = f"👛 Адрес кошелька: {address[0].value}\n"
-    bot_message += f"{sgr_count} SG₽\n\n"
+    bot_message += f"💳 {sgr_count} SG₽\n\n"
     bot_message += f"👧 NFT на аккаунте: {nft_count}\n"
     bot_message += f"🪙 Минимальная стоимость:\n"
     bot_message += f"MATIC: {balance_matic}\n"

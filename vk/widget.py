@@ -49,14 +49,14 @@ async def generate_code():
         "body": [
             [
                 {"text": "♀️ Soviet Girls", "url": "https://vk.com/@sovietgirls_nft-about"},
-                {"text": f"{'%.2f' % float(stats_girls['volume'])} MATIC"},
+                {"text": f"{'%.2f' % float(stats_girls['volume'])}"},
                 {"text": f"{stats_girls['floorPrice']} MATIC"},
                 {"text": f"{stats_girls['items']}"},
                 {"text": f"{stats_girls['owners']}"}
             ],
             [
                 {"text": "♂️ Soviet Boys", "url": "https://vk.com/@sovietgirls_nft-soviet-boys"},
-                {"text": f"{'%.2f' % float(stats_boys['volume'])} MATIC"},
+                {"text": f"{'%.2f' % float(stats_boys['volume'])}"},
                 {"text": f"{stats_boys['floorPrice']} MATIC"},
                 {"text": f"{stats_boys['items']}"},
                 {"text": f"{stats_boys['owners']}"}

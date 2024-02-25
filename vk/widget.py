@@ -43,8 +43,8 @@ async def generate_code():
             {"text": "Коллекция"},
             {"text": "Объем", "align": "center"},
             {"text": "Флор", "align": "center"},
-            {"text": "Токенов", "align": "center"},
-            {"text": "Владельцев", "align": "center"}
+            {"text": "Токены", "align": "center"},
+            {"text": "Владельцы", "align": "center"}
         ],
         "body": [
             [

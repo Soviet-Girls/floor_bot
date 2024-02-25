@@ -69,7 +69,7 @@ async def generate_code():
                 {"text": "😺 Soviet Neko (скоро)", "url": "https://vk.com/wall-220643723_835"},
                 {"text": f"-- ₽"},
                 {"text": f"-- ₽"},
-                {"text": f"300"},
+                {"text": f"322"},
                 {"text": f"--"}
             ],
         ],

@@ -36,8 +36,8 @@ async def generate_code():
     stats_girls = await get_stats()
     stats_boys = await get_boys_stats()
     matic_rub, matic_usd = await currency.get_matic_rate()
-    stats_girls['volume'] = "%.2f" % stats_girls['volume']*matic_rub/1000
-    stats_boys['volume'] = "%.2f" % stats_boys['volume']*matic_rub/1000
+    stats_girls['volume'] = "%.2f" % (stats_girls['volume'] * matic_rub / 1000)
+    stats_boys['volume'] = "%.2f" % (stats_boys['volume'] * matic_rub / 1000)
     widget = {
         "title": "Статистика коллекции",
         "title_url": config.widget.link,

@@ -33,6 +33,6 @@ async def get_balance(address):
     floor_price = floor_price['currentValue']
     matic_rub, matic_usd = await currency.get_matic_rate()
     balance_matic = balance * floor_price
-    balance_rub = round(balance * matic_rub, 2)
-    balance_usd = round(balance * matic_usd, 2)
+    balance_rub = round(balance_matic * matic_rub, 2)
+    balance_usd = round(balance_matic * matic_usd, 2)
     return balance, balance_matic, balance_rub, balance_usd

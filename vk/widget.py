@@ -13,6 +13,10 @@ old_girls_price = None
 old_boys_price = None
 
 def get_indicators(girls_price, boys_price):
+    if old_girls_price is None or old_boys_price is None:
+        old_girls_price = girls_price
+        old_boys_price = boys_price
+        return girls_indicator, boys_indicator
     if girls_price > old_girls_price:
         girls_indicator = '📈'
     elif girls_price < old_girls_price:
@@ -21,6 +25,8 @@ def get_indicators(girls_price, boys_price):
         boys_indicator = '📈'
     elif boys_price < old_boys_price:
         boys_indicator = '📉'
+    old_girls_price = girls_price
+    old_boys_price = boys_price
     return girls_indicator, boys_indicator
 
 async def generate_code():

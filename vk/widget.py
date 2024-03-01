@@ -13,7 +13,7 @@ old_girls_price = None
 old_boys_price = None
 
 def get_indicators(girls_price, boys_price):
-    global old_girls_price, old_boys_price
+    global old_girls_price, old_boys_price, girls_indicator, boys_indicator
     if old_girls_price is None or old_boys_price is None:
         old_girls_price = girls_price
         old_boys_price = boys_price

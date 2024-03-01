@@ -6,31 +6,22 @@ from config import config
 
 community_bot = Bot(token=config.widget.token)
 
+girls_indicator = '👧'
+boys_indicator = '👦'
 
-# async def generate_code():
-#     stats = await get_stats()
-#     print(stats)
-#     widget = {
-#         "title": "Статистика коллекции",
-#         "title_url": config.widget.link,
-#         "more": "Перейти в маркетплейс",
-#         "more_url": config.widget.link,
-#         "head": [
-#             {"text": "Объем", "align": "center"},
-#             {"text": "Флор", "align": "center"},
-#             {"text": "Токенов", "align": "center"},
-#             {"text": "Владельцев", "align": "center"}
-#         ],
-#         "body": [
-#             [
-#                 {"text": f"{'%.2f' % float(stats['volume'])} MATIC"},
-#                 {"text": f"{stats['floorPrice']} MATIC"},
-#                 {"text": f"{stats['items']}"},
-#                 {"text": f"{stats['owners']}"}
-#             ]
-#         ],
-#     }
-#     return f"return {widget};"
+old_girls_price = None
+old_boys_price = None
+
+def get_indicators(girls_price, boys_price):
+    if girls_price > old_girls_price:
+        girls_indicator = '📈'
+    elif girls_price < old_girls_price:
+        girls_indicator = '📉'
+    if boys_price > old_boys_price:
+        boys_indicator = '📈'
+    elif boys_price < old_boys_price:
+        boys_indicator = '📉'
+    return girls_indicator, boys_indicator
 
 async def generate_code():
     stats_girls = await get_stats()
@@ -38,6 +29,7 @@ async def generate_code():
     matic_rub, matic_usd = await currency.get_matic_rate()
     stats_girls['volume'] = "%.2f" % (stats_girls['volume'] * matic_rub / 1000)
     stats_boys['volume'] = "%.2f" % (stats_boys['volume'] * matic_rub / 1000)
+    girl_emoji, boy_emoji = get_indicators(int(stats_girls['floorPrice']*matic_rub), int(stats_boys['floorPrice']*matic_rub))
     widget = {
         "title": "Статистика коллекции",
         "title_url": config.widget.link,
@@ -52,14 +44,14 @@ async def generate_code():
         ],
         "body": [
             [
-                {"text": "♀️ Soviet Girls", "url": "https://vk.com/@sovietgirls_nft-about"},
+                {"text": f"{girl_emoji} Soviet Girls", "url": "https://vk.com/@sovietgirls_nft-about"},
                 {"text": f"{stats_girls['volume']}К ₽"},
                 {"text": f"{int(stats_girls['floorPrice']*matic_rub)} ₽"},
                 {"text": f"{stats_girls['items']}"},
                 {"text": f"{stats_girls['owners']}"}
             ],
             [
-                {"text": "♂️ Soviet Boys", "url": "https://vk.com/@sovietgirls_nft-soviet-boys"},
+                {"text": f"{boy_emoji} Soviet Boys", "url": "https://vk.com/@sovietgirls_nft-soviet-boys"},
                 {"text": f"{stats_boys['volume']}К ₽"},
                 {"text": f"{int(stats_boys['floorPrice']*matic_rub)} ₽"},
                 {"text": f"{stats_boys['items']}"},

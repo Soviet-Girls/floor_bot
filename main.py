@@ -55,7 +55,8 @@ async def post_story():
             )
         upload_url = upload_url.upload_url
         # загружаем историю
-        result = await BaseUploader.upload_files(upload_url=upload_url, files={'file': image})
+        uploader = BaseUploader(bot.api)
+        result = await uploader.upload_files(upload_url=upload_url, files={'file': image})
         print(result)
     except Exception as e:
         await bot.api.messages.send(

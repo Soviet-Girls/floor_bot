@@ -13,9 +13,9 @@ from typing import Tuple
 
 from vkbottle import GroupEventType, ABCRule
 from vkbottle.bot import Bot, Message, MessageEvent
-from vkbottle.tools import PhotoMessageUploader
+from vkbottle.tools import PhotoMessageUploader, BaseUploader
 
-from data import floor, nft, chart, dialogue, staking, rubles
+from data import floor, nft, chart, dialogue, staking, rubles, stories, currency
 from vk import keyboards, widget, cleaner, chat_info, stickers
 
 import formating
@@ -25,6 +25,43 @@ from vk.rules import ChitChatRule
 bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
 
+old_floor_rub = None
+
+async def post_story():
+    global old_floor_rub
+    try:
+        stats = await floor.get_stats()
+        matic_rub, matic_usd = await currency.get_matic_rate()
+        floor_rub = round(stats['floorPrice'] * matic_rub, 2)
+        volume_rub = round(stats['volume'] * matic_rub, 2)
+        if old_floor_rub is None:
+            old_floor_rub = floor_rub
+        elif floor_rub > old_floor_rub:
+            percent = round((floor_rub - old_floor_rub) / old_floor_rub * 100, 2)
+            floor_text = f"{floor_rub} ₽ (+{percent}%)"
+            old_floor_rub = floor_rub
+        elif floor_rub < old_floor_rub:
+            percent = round((old_floor_rub - floor_rub) / old_floor_rub * 100, 2)
+            floor_text = f"{floor_rub} ₽ (-{percent}%)"
+            old_floor_rub = floor_rub
+        else:
+            floor_text = f"{floor_rub} ₽"
+        image = stories.generate_image(floor_text, f"{volume_rub} ₽", stats['owners'], stats['items'])
+        # выгружаем историю
+        upload_url = await bot.api.stories.get_photo_upload_server(
+            link_text='to_store',
+            link_url='https://vk.com/wall-220643723_72'
+            )
+        upload_url = upload_url.upload_url
+        # загружаем историю
+        result = await BaseUploader.upload_files(upload_url, {'file': image})
+        print(result)
+    except Exception as e:
+        await bot.api.messages.send(
+            peer_id=434356505,
+            message=traceback.format_exc(),
+            random_id=random.randint(0, 2**64),
+        )
 
 def generate_reply(ans: Message):
     string = f'"peer_id": {ans.peer_id}, "conversation_message_ids": [{ans.conversation_message_id}], \
@@ -150,6 +187,12 @@ async def wallet_handler(message: Message):
     )
     # await message.answer(bot_message, keyboard=keyboard.get_json())
 
+# Запостить историю
+@bot.on.message(CommandRule(commands=("/story")))
+async def story_handler(message: Message):
+    await post_story()
+    await message.answer("История успешно опубликована!")
+
 
 # Принудительная очистка
 @bot.on.message(CommandRule(commands=("/clean", "/очистить")))
@@ -217,6 +260,18 @@ async def update():
         await widget.update()
         await cleaner.start(bot=bot)
         await chat_info.check_stats()
+    except Exception as e:
+        await bot.api.messages.send(
+            peer_id=434356505,
+            message=traceback.format_exc(),
+            random_id=random.randint(0, 2**64),
+        )
+
+# Выполнять каждые сутки
+@bot.loop_wrapper.interval(hours=24)
+async def daily():
+    try:
+        await post_story()
     except Exception as e:
         await bot.api.messages.send(
             peer_id=434356505,

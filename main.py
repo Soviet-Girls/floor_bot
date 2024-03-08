@@ -36,6 +36,7 @@ async def post_story():
         volume_rub = round(stats['volume'] * matic_rub, 2)
         if old_floor_rub is None:
             old_floor_rub = floor_rub
+            floor_text = f"{floor_rub} ₽"
         elif floor_rub > old_floor_rub:
             percent = round((floor_rub - old_floor_rub) / old_floor_rub * 100, 2)
             floor_text = f"{floor_rub} ₽ (+{percent}%)"

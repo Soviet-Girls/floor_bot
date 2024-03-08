@@ -16,8 +16,11 @@ class StoriesUploader(BaseUploader):
     
     async def upload(self, file_source: Union[str, "Bytes"], **params) -> Union[str, List[dict]]:
         server = await self.get_server(**params)
+        print(server)
         data = await self.read(file_source)
+        print(data)
         file = self.get_bytes_io(data)
+        print(file)
         
         uploader = await self.upload_files(server["upload_url"], {"file": file})
         print(uploader)

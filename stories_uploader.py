@@ -20,4 +20,7 @@ class StoriesUploader(BaseUploader):
         file = self.get_bytes_io(data)
         
         uploader = await self.upload_files(server["upload_url"], {"file": file})
+        print(uploader)
+        if not uploader:
+            raise ValueError("Failed to upload the file")
         return (await self.api.request("stories.save", uploader))["response"]

@@ -13,7 +13,8 @@ from typing import Tuple
 
 from vkbottle import GroupEventType, ABCRule
 from vkbottle.bot import Bot, Message, MessageEvent
-from vkbottle.tools import PhotoMessageUploader, BaseUploader
+from vkbottle.tools import PhotoMessageUploader
+from stories_uploader import StoriesUploader
 
 from data import floor, nft, chart, dialogue, staking, rubles, stories, currency
 from vk import keyboards, widget, cleaner, chat_info, stickers
@@ -24,6 +25,7 @@ from vk.rules import ChitChatRule
 
 bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
+stories_uploader = StoriesUploader(bot.api)
 
 old_floor_rub = None
 
@@ -48,16 +50,8 @@ async def post_story():
         else:
             floor_text = f"{floor_rub} ₽"
         image = stories.generate_image(floor_text, f"{volume_rub} ₽", stats['owners'], stats['items'])
-        # выгружаем историю
-        upload_url = await bot.api.stories.get_photo_upload_server(
-            link_text='to_store',
-            link_url='https://vk.com/wall-220643723_72'
-            )
-        upload_url = upload_url.upload_url
-        # загружаем историю
-        uploader = BaseUploader(bot.api)
-        result = await uploader.upload_files(upload_url=upload_url, files={'file': image})
-        print(result)
+        attachment = await stories_uploader.upload(image)
+        return attachment
     except Exception as e:
         await bot.api.messages.send(
             peer_id=434356505,

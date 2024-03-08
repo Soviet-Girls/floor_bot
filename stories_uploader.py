@@ -25,4 +25,6 @@ class StoriesUploader(BaseUploader):
         uploader = await self.upload_files(server["upload_url"], {"file": file})
         print(uploader)
         uploader = uploader["response"]
+        for i in range(20):
+            print(uploader)
         return (await self.api.request("stories.save", uploader))["response"]

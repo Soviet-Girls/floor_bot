@@ -50,7 +50,7 @@ async def post_story():
         else:
             floor_text = f"{floor_rub} ₽"
         image = stories.generate_image(floor_text, f"{volume_rub} ₽", stats['owners'], stats['items'])
-        attachment = await stories_uploader.upload(image)
+        attachment = await stories_uploader.upload(image, link_text="to_store", link_url="https://vk.com/wall-220643723_72")
         return attachment
     except Exception as e:
         await bot.api.messages.send(

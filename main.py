@@ -34,8 +34,8 @@ async def post_story():
     try:
         stats = await floor.get_stats()
         matic_rub, matic_usd = await currency.get_matic_rate()
-        floor_rub = round(stats['floorPrice'] * matic_rub, 2)
-        volume_rub = round(stats['volume'] * matic_rub, 2)
+        floor_rub = '{0:,}'.format(int(stats['floorPrice'])).replace(',', ' ')
+        volume_rub = '{0:,}'.format(int(stats['volume'])).replace(',', ' ')
         if old_floor_rub is None:
             old_floor_rub = floor_rub
             floor_text = f"{floor_rub} ₽"

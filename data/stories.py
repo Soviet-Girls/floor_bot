@@ -9,9 +9,6 @@ def generate_image(floor, volume, owners, tokens) -> io.BytesIO:
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("Bahnschrift-BoldCondensed.ttf", 85)
 
-    floor = '{0:,}'.format(int(floor)).replace(',', ' ')
-    volume = '{0:,}'.format(int(volume)).replace(',', ' ')
-
     draw.text((630, 353), str(floor), (0, 0, 0), font=font)
     draw.text((630, 453), str(volume), (0, 0, 0), font=font)
     draw.text((630, 555), str(owners), (0, 0, 0), font=font)

@@ -37,16 +37,16 @@ async def post_story():
         floor_rub = '{0:,}'.format(int(stats['floorPrice'] * matic_rub)).replace(',', ' ')
         volume_rub = '{0:,}'.format(int(stats['volume'] * matic_rub)).replace(',', ' ')
         if old_floor_rub is None:
-            old_floor_rub = floor_rub
+            old_floor_rub = int(stats['floorPrice'] * matic_rub)
             floor_text = f"{floor_rub} ₽"
-        elif floor_rub > old_floor_rub:
+        elif int(stats['floorPrice'] * matic_rub) > old_floor_rub:
             percent = round((floor_rub - old_floor_rub) / old_floor_rub * 100, 2)
             floor_text = f"{floor_rub} ₽ (+{percent}%)"
             old_floor_rub = floor_rub
-        elif floor_rub < old_floor_rub:
+        elif int(stats['floorPrice'] * matic_rub) < old_floor_rub:
             percent = round((old_floor_rub - floor_rub) / old_floor_rub * 100, 2)
             floor_text = f"{floor_rub} ₽ (-{percent}%)"
-            old_floor_rub = floor_rub
+            old_floor_rub = int(stats['floorPrice'] * matic_rub)
         else:
             floor_text = f"{floor_rub} ₽"
         image = stories.generate_image(floor_text, f"{volume_rub} ₽", stats['owners'], stats['items'])

@@ -16205,7 +16205,10 @@ stickers = {
                 "words": ["не давай мне надежду"],
                 "stickers": [{"pack_id": 1450, "sticker_id": 68926}],
             },
-            {"words": ["👩", "🦰"], "stickers": [{"pack_id": 1450, "sticker_id": 68928}]},
+            {
+                "words": ["👩", "🦰"],
+                "stickers": [{"pack_id": 1450, "sticker_id": 68928}],
+            },
             {
                 "words": ["заскамили мамонта"],
                 "stickers": [{"pack_id": 1450, "sticker_id": 68929}],
@@ -16641,7 +16644,10 @@ stickers = {
                     {"pack_id": 1048, "sticker_id": 51955},
                 ],
             },
-            {"words": ["💀", "☠"], "stickers": [{"pack_id": 1356, "sticker_id": 64914}]},
+            {
+                "words": ["💀", "☠"],
+                "stickers": [{"pack_id": 1356, "sticker_id": 64914}],
+            },
             {
                 "words": ["нет забот"],
                 "stickers": [{"pack_id": 1408, "sticker_id": 67008}],
@@ -18394,7 +18400,10 @@ stickers = {
             },
             {"words": ["shit"], "stickers": [{"pack_id": 1073, "sticker_id": 53107}]},
             {"words": ["👇"], "stickers": [{"pack_id": 1073, "sticker_id": 53113}]},
-            {"words": ["👼", "🏼"], "stickers": [{"pack_id": 1073, "sticker_id": 53124}]},
+            {
+                "words": ["👼", "🏼"],
+                "stickers": [{"pack_id": 1073, "sticker_id": 53124}],
+            },
             {
                 "words": ["пора в бар"],
                 "stickers": [
@@ -19710,7 +19719,10 @@ stickers = {
                 "words": ["моя ошибка я дурной"],
                 "stickers": [{"pack_id": 1088, "sticker_id": 53758}],
             },
-            {"words": ["🏊", "🌊"], "stickers": [{"pack_id": 1088, "sticker_id": 53759}]},
+            {
+                "words": ["🏊", "🌊"],
+                "stickers": [{"pack_id": 1088, "sticker_id": 53759}],
+            },
             {
                 "words": ["акулеть"],
                 "stickers": [{"pack_id": 1088, "sticker_id": 53761}],
@@ -20041,7 +20053,10 @@ stickers = {
                 "words": ["мой малек"],
                 "stickers": [{"pack_id": 1086, "sticker_id": 53672}],
             },
-            {"words": ["🌾", "🌱"], "stickers": [{"pack_id": 1086, "sticker_id": 53690}]},
+            {
+                "words": ["🌾", "🌱"],
+                "stickers": [{"pack_id": 1086, "sticker_id": 53690}],
+            },
             {
                 "words": ["сказочке конец"],
                 "stickers": [
@@ -20142,7 +20157,10 @@ stickers = {
                 "words": ["нечего надеть"],
                 "stickers": [{"pack_id": 1079, "sticker_id": 53392}],
             },
-            {"words": ["🥙", "🌯"], "stickers": [{"pack_id": 1079, "sticker_id": 53394}]},
+            {
+                "words": ["🥙", "🌯"],
+                "stickers": [{"pack_id": 1079, "sticker_id": 53394}],
+            },
             {
                 "words": ["хочу подарок"],
                 "stickers": [

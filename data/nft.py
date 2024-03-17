@@ -10,8 +10,15 @@ import data.real_price as real_price
 
 from config import config
 
-w3 = Web3(Web3.AsyncHTTPProvider(config.rpc.address), modules={"eth": (AsyncEth,)}, middlewares=[])
-nft_contract = w3.eth.contract("0x15F4272460062b835Ba0abBf7A5E407F3EF425d3", abi=abi.thirdweb)
+w3 = Web3(
+    Web3.AsyncHTTPProvider(config.rpc.address),
+    modules={"eth": (AsyncEth,)},
+    middlewares=[],
+)
+nft_contract = w3.eth.contract(
+    "0x15F4272460062b835Ba0abBf7A5E407F3EF425d3", abi=abi.thirdweb
+)
+
 
 async def check_owner(address):
     address = w3.to_checksum_address(address)
@@ -30,7 +37,7 @@ async def balance_of(address):
 async def get_balance(address):
     balance = await balance_of(address)
     floor_price = await floor.get_raw()
-    floor_price = floor_price['currentValue']
+    floor_price = floor_price["currentValue"]
     matic_rub, matic_usd = await currency.get_matic_rate()
     balance_matic = balance * floor_price
     balance_rub = round(balance_matic * matic_rub, 2)

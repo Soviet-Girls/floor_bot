@@ -17,7 +17,7 @@ async def check_stats():
         return
     if cache_stats == {}:
         cache_stats = stats
-    
+
     print(stats)
 
     if stats["volume"] > cache_stats["volume"]:

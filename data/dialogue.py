@@ -26,7 +26,7 @@ base_prompt = """Ты ассистент в официальном сообще�
 
 
 def get_answer(text: str, peer_id: int, user_name: str):
-    text = user_name + ": " + text 
+    text = user_name + ": " + text
     try:
         context[str(peer_id)].append({"role": "user", "content": text})
     except KeyError:

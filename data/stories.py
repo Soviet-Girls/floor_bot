@@ -1,6 +1,7 @@
 import io
 from PIL import Image, ImageDraw, ImageFont
 
+
 # функция генерации изображения
 # в папке проекта лежит файл "stories.png"
 # на него будем накладывать текст в указанных координатах
@@ -18,6 +19,7 @@ def generate_image(floor, volume, owners, tokens) -> io.BytesIO:
     img.save(buf, format="PNG")
     buf.seek(0)
     return buf
+
 
 if __name__ == "__main__":
     # пример вызова функции

@@ -32,10 +32,19 @@ async def post_story():
     try:
         stats = await floor.get_stats()
         matic_rub, matic_usd = await currency.get_matic_rate()
-        floor_rub = '{0:,}'.format(int(stats['floorPrice'] * matic_rub)).replace(',', ' ')
-        volume_rub = '{0:,}'.format(int(stats['volume'] * matic_rub)).replace(',', ' ')
-        image = stories.generate_image(f"{floor_rub} ₽", f"{volume_rub} ₽", stats['owners'], stats['items'])
-        attachment = await stories_uploader.upload(image, add_to_news=1, link_text="to_store", link_url="https://vk.com/wall-220643723_72")
+        floor_rub = "{0:,}".format(int(stats["floorPrice"] * matic_rub)).replace(
+            ",", " "
+        )
+        volume_rub = "{0:,}".format(int(stats["volume"] * matic_rub)).replace(",", " ")
+        image = stories.generate_image(
+            f"{floor_rub} ₽", f"{volume_rub} ₽", stats["owners"], stats["items"]
+        )
+        attachment = await stories_uploader.upload(
+            image,
+            add_to_news=1,
+            link_text="to_store",
+            link_url="https://vk.com/wall-220643723_72",
+        )
         return attachment
     except Exception as e:
         await bot.api.messages.send(
@@ -43,6 +52,7 @@ async def post_story():
             message=traceback.format_exc(),
             random_id=random.randint(0, 2**64),
         )
+
 
 def generate_reply(ans: Message):
     string = f'"peer_id": {ans.peer_id}, "conversation_message_ids": [{ans.conversation_message_id}], \
@@ -168,6 +178,7 @@ async def wallet_handler(message: Message):
     )
     # await message.answer(bot_message, keyboard=keyboard.get_json())
 
+
 # Запостить историю
 @bot.on.message(CommandRule(commands=("/story")))
 async def story_handler(message: Message):
@@ -191,7 +202,7 @@ async def chit_chat_handler(message: Message):
     owner = await nft.check_owner(address[0].value)
     if not owner:
         return
-    
+
     user = await bot.api.users.get(user_ids=message.from_id)
     user_name = f"{user[0].first_name}"
 
@@ -215,7 +226,7 @@ async def chit_chat_handler(message: Message):
     if "FLOOR_CALL" in answer:
         await now_handler(message)
         return
-    
+
     if "WALLET_CALL" in answer:
         await wallet_handler(message)
         return
@@ -247,6 +258,7 @@ async def update():
             message=traceback.format_exc(),
             random_id=random.randint(0, 2**64),
         )
+
 
 # Выполнять каждые сутки
 @bot.loop_wrapper.interval(hours=24)

@@ -67,6 +67,7 @@ async def get_stats():
                 return
     return data
 
+
 async def get_boys_stats():
     url = "https://api.rarible.org/v0.1/data/collections/POLYGON:0xaebc78c7f624e4715ca436351f5ed9cb61e368bd/stats/?currency=MATIC"
     async with aiohttp.ClientSession() as session:
@@ -77,6 +78,7 @@ async def get_boys_stats():
                 print(f"Error: {data}")
                 return
     return data
+
 
 # Отдать голые данные
 async def get_raw():

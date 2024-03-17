@@ -27,29 +27,14 @@ bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
 stories_uploader = StoriesUploader(bot.api)
 
-old_floor_rub = None
 
 async def post_story():
-    global old_floor_rub
     try:
         stats = await floor.get_stats()
         matic_rub, matic_usd = await currency.get_matic_rate()
         floor_rub = '{0:,}'.format(int(stats['floorPrice'] * matic_rub)).replace(',', ' ')
         volume_rub = '{0:,}'.format(int(stats['volume'] * matic_rub)).replace(',', ' ')
-        if old_floor_rub is None:
-            old_floor_rub = int(stats['floorPrice'] * matic_rub)
-            floor_text = f"{floor_rub} ₽"
-        elif int(stats['floorPrice'] * matic_rub) > old_floor_rub:
-            percent = round((floor_rub - old_floor_rub) / old_floor_rub * 100, 2)
-            floor_text = f"{floor_rub} ₽ (+{percent}%)"
-            old_floor_rub = floor_rub
-        elif int(stats['floorPrice'] * matic_rub) < old_floor_rub:
-            percent = round((old_floor_rub - floor_rub) / old_floor_rub * 100, 2)
-            floor_text = f"{floor_rub} ₽ (-{percent}%)"
-            old_floor_rub = int(stats['floorPrice'] * matic_rub)
-        else:
-            floor_text = f"{floor_rub} ₽"
-        image = stories.generate_image(floor_text, f"{volume_rub} ₽", stats['owners'], stats['items'])
+        image = stories.generate_image(f"{floor_rub} ₽", f"{volume_rub} ₽", stats['owners'], stats['items'])
         attachment = await stories_uploader.upload(image, add_to_news=1, link_text="to_store", link_url="https://vk.com/wall-220643723_72")
         return attachment
     except Exception as e:
@@ -163,7 +148,7 @@ async def wallet_handler(message: Message):
     bot_message = f"👛 Адрес кошелька: {address[0].value}\n"
     bot_message += f"💳 {sgr_count} SG₽\n\n"
     bot_message += f"👧 NFT на аккаунте: {balance}\n"
-    bot_message += f"🪙 Цена по флору:\n"
+    bot_message += "🪙 Цена по флору:\n"
     bot_message += f"MATIC: {balance_matic}\n"
     bot_message += f"Рубли: {balance_rub} ₽\n"
     bot_message += f"Доллары: {balance_usd} $\n\n"

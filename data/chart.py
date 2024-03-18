@@ -4,15 +4,9 @@
 # Импорт необходимых модулей
 import io
 import seaborn
-import datetime
 from config import config
 
 def generate(data: dict) -> bytes:
-    # Превращаем даты в данных из 2023-04-25 в 25.04
-    data["historicalDates"] = [
-        datetime.datetime.strptime(date, "%Y-%m-%d").strftime("%d.%m")
-        for date in data["historicalDates"]
-    ]
     # Генерируем график за последние 5 дней
     seaborn.set_theme(style="darkgrid")
     c = seaborn.lineplot(
@@ -23,7 +17,7 @@ def generate(data: dict) -> bytes:
     # Настраиваем график
     c.set_title(f"График флора {config.nft.name}", fontsize=16)
     c.set_xlabel("")
-    c.set_ylabel("Цена в MATIC")
+    c.set_ylabel("Цена в рублях")
     # Делаем график более широким
     c.figure.set_figwidth(8)
     # Сохраняем график в буфер

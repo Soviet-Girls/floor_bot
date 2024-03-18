@@ -55,6 +55,7 @@ async def get_ruble_usd():
         async with session.get(url) as response:
             data = await response.json(content_type=None)
     data = data['Valute']['USD']['Value']
+    return data
 
 async def get_matic_ruble_historical():
     matic_historical = await get_matic_historical()

@@ -49,10 +49,17 @@ async def get_ruble_usd_historical():
         result.append(float(record[1].text.replace(",", ".")))
     return result
 
+async def get_ruble_usd():
+    url = 'https://www.cbr-xml-daily.ru/daily_json.js'
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            data = await response.json()
+    data = data['Valute']['USD']['Value']
+
 async def get_matic_ruble_historical():
     matic_historical = await get_matic_historical()
-    ruble_usd_historical = await get_ruble_usd_historical()
+    ruble_usd = await get_ruble_usd()
     result = []
     for i in range(5):
-        result.append(matic_historical[i] * ruble_usd_historical[i])
+        result.append(matic_historical[i] * ruble_usd)
     return result

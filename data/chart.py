@@ -7,25 +7,13 @@ import seaborn
 import datetime
 from config import config
 
-# получить время в юникс формате
-import time
-# time.time()
-
-
 def generate(data: dict) -> bytes:
     # Превращаем даты в данных из 2023-04-25 в 25.04
     data["historicalDates"] = [
         datetime.datetime.strptime(date, "%Y-%m-%d").strftime("%d.%m")
         for date in data["historicalDates"]
     ]
-    # Генерируем график за последние 7 дней
-    if time.time() > 1709719187:
-        data["historicalDates"] = data["historicalDates"][-7:]
-        data["historicalValues"] = data["historicalValues"][-6:]
-    else:
-        data["historicalDates"] = data["historicalDates"][-5:]
-        data["historicalValues"] = data["historicalValues"][-4:]
-    data["historicalValues"].append(data["currentValue"])
+    # Генерируем график за последние 5 дней
     seaborn.set_theme(style="darkgrid")
     c = seaborn.lineplot(
         data=data,

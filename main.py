@@ -119,6 +119,18 @@ async def chart_handler(event: MessageEvent):
     if event.object.payload.get("command") == "full_update":
         bot_message = await floor.get()
         raw_data = await floor.get_raw()
+        ruble_historical = await currency.get_matic_ruble_historical()
+        raw_data["historicalDates"] = [
+            datetime.datetime.strptime(date, "%Y-%m-%d").strftime("%d.%m")
+            for date in raw_data["historicalDates"]
+        ]
+        raw_data["historicalDates"] = raw_data["historicalDates"][-5:]
+        raw_data["historicalValues"] = raw_data["historicalValues"][-4:]
+        raw_data["historicalValues"].append(raw_data["currentValue"])
+        new_historical_values = []
+        for i in range(5):
+            new_historical_values.append(ruble_historical[i]*raw_data["historicalValues"][i])
+        raw_data["historicalValues"] = new_historical_values
         buf = chart.generate(raw_data)
         attachment = await uploader.upload(buf, peer_id=event.object.peer_id)
         await bot.api.messages.edit(
@@ -132,6 +144,18 @@ async def chart_handler(event: MessageEvent):
         return
 
     raw_data = await floor.get_raw()
+    ruble_historical = await currency.get_matic_ruble_historical()
+    raw_data["historicalDates"] = [
+        datetime.datetime.strptime(date, "%Y-%m-%d").strftime("%d.%m")
+        for date in raw_data["historicalDates"]
+    ]
+    raw_data["historicalDates"] = raw_data["historicalDates"][-5:]
+    raw_data["historicalValues"] = raw_data["historicalValues"][-4:]
+    raw_data["historicalValues"].append(raw_data["currentValue"])
+    new_historical_values = []
+    for i in range(5):
+        new_historical_values.append(ruble_historical[i]*raw_data["historicalValues"][i])
+    raw_data["historicalValues"] = new_historical_values
     buf = chart.generate(raw_data)
     try:
         attachment = await uploader.upload(buf, peer_id=event.object.user_id)

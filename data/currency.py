@@ -53,7 +53,7 @@ async def get_ruble_usd():
     url = 'https://www.cbr-xml-daily.ru/daily_json.js'
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
-            data = await response.json()
+            data = await response.json(content_type=None)
     data = data['Valute']['USD']['Value']
 
 async def get_matic_ruble_historical():

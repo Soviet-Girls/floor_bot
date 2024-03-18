@@ -42,7 +42,7 @@ async def get_ruble_usd_historical():
             f"https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={date_req1}&date_req2={date_req2}&VAL_NM_RQ=R01235"
         ) as response:
             data = await response.text()
-    
+    print(data)
     root = ET.fromstring(data)
     result = []
     for record in root:

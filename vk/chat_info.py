@@ -64,7 +64,8 @@ async def get_balances():
     wallets = [
         '0xE149354579ec472C9A4369e659D2fCD0d1164022', # primary
         '0x63327acf277ba3d9aa309489ace95554279f8d8a',
-        '0x4ec72988e5460055D1e845437cab4F2A38595169'
+        '0x4ec72988e5460055D1e845437cab4F2A38595169',
+        '0x6B2f88DAfDe4c401dbc33563cE59507C185ce720'
         ]
     
     for wallet in wallets:

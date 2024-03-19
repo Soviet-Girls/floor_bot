@@ -61,8 +61,8 @@ async def check_stats():
 async def get_balance():
     address = w3.to_checksum_address('0x63327acf277ba3d9aa309489ace95554279f8d8a')
     balance = await w3.eth.get_balance(address)
-    # Convert to MATIC
-    balance = w3.from_wei(balance, 'ether') / 10**18
+    # Convert to MATIC (1 MATIC = 10**18 wei)
+    balance = float(w3.from_wei(balance, 'ether'))
     return balance
 
 async def check_vknft():

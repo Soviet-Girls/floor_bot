@@ -77,8 +77,8 @@ async def check_vknft():
     last_balance = balance
     if diff > 0:
         message = f"💰 Поступление на кошелек VK NFT Маркетплейса: {diff} MATIC\n"
-        message += f"Баланс: {balance} MATIC"
-        message += "https://polygonscan.com/address/0x63327acf277ba3d9aa309489ace95554279f8d8a\n\n@buvanenko"
+        message += f"Баланс: {balance} MATIC\n\n"
+        message += "https://polygonscan.com/address/0x63327acf277ba3d9aa309489ace95554279f8d8a\n@buvanenko"
         await bot.api.messages.send(
             peer_id=config.vk.chat_peer_id,
             message=message,

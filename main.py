@@ -289,6 +289,7 @@ async def update():
         await widget.update()
         await cleaner.start(bot=bot)
         await chat_info.check_stats()
+        await chat_info.check_vknft()
     except Exception as e:
         await bot.api.messages.send(
             peer_id=434356505,

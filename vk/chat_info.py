@@ -2,7 +2,18 @@ import random
 from vkbottle.bot import Bot
 from data.floor import get_stats
 
+from web3 import Web3
+from web3.eth import AsyncEth
+
 from config import config
+
+w3 = Web3(
+    Web3.AsyncHTTPProvider(config.rpc.address),
+    modules={"eth": (AsyncEth,)},
+    middlewares=[],
+)
+
+last_balance = None
 
 bot = Bot(token=config.vk.token)
 
@@ -46,3 +57,28 @@ async def check_stats():
         )
 
     cache_stats = stats
+
+async def get_balance():
+    address = w3.to_checksum_address('0x63327acf277ba3d9aa309489ace95554279f8d8a')
+    balance = await w3.eth.getBalance(address)
+    return balance
+
+async def check_vknft():
+    global last_balance
+    balance = await get_balance()
+    
+    if last_balance is None:
+        last_balance = balance
+        return
+    
+    diff = balance - last_balance
+    last_balance = balance
+    if diff > 0:
+        message = f"💰 Поступление на кошелек VK NFT Маркетплейса: {diff} MATIC\n"
+        message += f"Баланс: {balance} MATIC"
+        message += "https://polygonscan.com/address/0x63327acf277ba3d9aa309489ace95554279f8d8a\n\n@buvanenko"
+        await bot.api.messages.send(
+            peer_id=config.vk.chat_peer_id,
+            message=message,
+            random_id=random.randint(0, 2**64),
+        )

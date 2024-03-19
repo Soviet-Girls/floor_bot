@@ -60,7 +60,7 @@ async def check_stats():
 
 async def get_balance():
     address = w3.to_checksum_address('0x63327acf277ba3d9aa309489ace95554279f8d8a')
-    balance = await w3.eth.getBalance(address)
+    balance = await w3.eth.get_balance(address)
     return balance
 
 async def check_vknft():

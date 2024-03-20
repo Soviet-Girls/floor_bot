@@ -18,7 +18,7 @@ from vkbottle.tools import PhotoMessageUploader
 from stories_uploader import StoriesUploader
 
 from data import floor, nft, chart, dialogue, staking, rubles, stories, currency
-from vk import keyboards, widget, cleaner, chat_info, stickers
+from vk import keyboards, widget, cleaner, chat_info, stickers, neko
 
 import formating
 
@@ -249,9 +249,17 @@ async def wallet_handler(message: Message):
 # Запостить историю
 @bot.on.message(CommandRule(commands=("/story")))
 async def story_handler(message: Message):
-    await post_story()
-    await message.answer("История успешно опубликована!")
+    if message.from_id in config.vk.admins:
+        await post_story()
+        await message.answer("История успешно опубликована!")
 
+
+@bot.on.message(CommandRule(commands=("/neko")))
+async def neko_handler(message: Message):
+    if message.from_id in config.vk.admins:
+        text = message.text[6:]
+        await neko.set(text)
+        await message.answer("ok!")
 
 # Принудительная очистка
 @bot.on.message(CommandRule(commands=("/clean", "/очистить")))

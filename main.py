@@ -314,8 +314,8 @@ async def chit_chat_handler(message: Message):
 
 async def set_online():
     response = await bot.api.request("groups.getOnlineStatus", {"group_id": config.vk.group_id})
-    print(response["status"])
-    if response["status"] == "online":
+    print(response)
+    if response['response']["status"] == "online":
         return
     await bot.api.request("groups.enableOnline", {"group_id": config.vk.group_id})
 

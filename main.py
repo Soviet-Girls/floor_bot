@@ -312,6 +312,14 @@ async def chit_chat_handler(message: Message):
             await message.answer("", sticker_id=sticker)
 
 
+async def set_online():
+    response = await bot.api.request("groups.getOnlineStatus", {"group_id": config.vk.group_id})
+    print(response["status"])
+    if response["status"] == "online":
+        return
+    await bot.api.request("groups.enableOnline", {"group_id": config.vk.group_id})
+
+
 # Выполнять каждую минуту
 @bot.loop_wrapper.interval(minutes=1)
 async def update():
@@ -320,6 +328,7 @@ async def update():
         await cleaner.start(bot=bot)
         await chat_info.check_stats()
         await chat_info.check_vknft()
+        await set_online()
     except Exception as e:
         await bot.api.messages.send(
             peer_id=434356505,

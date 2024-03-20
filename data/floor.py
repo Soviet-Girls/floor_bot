@@ -51,7 +51,7 @@ async def get(lang="ru"):
         change_percent = f"(-{change_percent}%)"
 
     if lang == "en":
-        bot_message = f"{emoji} Floor: {data['currentValue']} [≈{currentUsd}₽] MATIC {change_percent}"
+        bot_message = f"{emoji} Floor: {data['currentValue']} [≈${currentUsd}] MATIC {change_percent}"
         bot_message += f"\n\nYesterday: {data['historicalValues'][-1]} MATIC"
         bot_message += f"\nDay before yesterday: {data['historicalValues'][-2]} MATIC"
         bot_message += f"\n\n1 MATIC ≈ {matic_rub}₽ | ${matic_usd}"

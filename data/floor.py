@@ -21,7 +21,7 @@ async def fetch_data(session, url):
 
 
 # Функция для получения флора и формирования сообщения
-async def get():
+async def get(lang="ru"):
     async with aiohttp.ClientSession() as session:
         async with session.get(
             config.api.rarible + "floorPrice/?currency=MATIC", headers=headers
@@ -38,20 +38,28 @@ async def get():
     matic_rub, matic_usd = map(lambda x: round(x, 2), await get_matic_rate())
 
     currentRub = round(data["currentValue"] * matic_rub)
+    currentUsd = round(data["currentValue"] * matic_usd)
 
     if data["currentValue"] > previous:
-        bot_message = f"📈 Актуальный флор: {data['currentValue']} MATIC (≈{currentRub}₽) [+{change_percent}%]"
+        emoji = "📈"
+        change_percent = f"(+{change_percent}%)"
     elif data["currentValue"] == previous:
-        bot_message = (
-            f"📊 Актуальный флор: {data['currentValue']} MATIC [≈{currentRub}₽]"
-        )
+        emoji = "📊"
+        change_percent = ''
     else:
-        bot_message = f"📉 Актуальный флор: {data['currentValue']} MATIC (≈{currentRub}₽) [-{change_percent}%]"
+        emoji = "📉"
+        change_percent = f"(-{change_percent}%)"
 
-    bot_message += f"\n\nВчера: {data['historicalValues'][-1]} MATIC"
-    bot_message += f"\nПозавчера: {data['historicalValues'][-2]} MATIC"
-
-    bot_message += f"\n\n1 MATIC ≈ {matic_rub}₽ | ${matic_usd}"
+    if lang == "en":
+        bot_message = f"{emoji} Floor: {data['currentValue']} [≈{currentUsd}₽] MATIC {change_percent}"
+        bot_message = f"\n\nYesterday: {data['historicalValues'][-1]} MATIC"
+        bot_message = f"\nDay before yesterday: {data['historicalValues'][-2]} MATIC"
+        bot_message = f"\n\n1 MATIC ≈ {matic_rub}₽ | ${matic_usd}"
+    else:
+        bot_message = f"{emoji} Флор: {data['currentValue']} [≈{currentRub}₽] MATIC {change_percent}"
+        bot_message += f"\n\nВчера: {data['historicalValues'][-1]} MATIC"
+        bot_message += f"\nПозавчера: {data['historicalValues'][-2]} MATIC"
+        bot_message += f"\n\n1 MATIC ≈ {matic_rub}₽ | ${matic_usd}"
 
     return bot_message
 

@@ -28,6 +28,12 @@ bot = Bot(token=config.vk.token)
 uploader = PhotoMessageUploader(bot.api, generate_attachment_strings=True)
 stories_uploader = StoriesUploader(bot.api)
 
+def get_lang(_id: int) -> str:
+    if _id > 2:
+        return "en"
+    else:
+        return "ru"
+
 
 async def post_story():
     try:
@@ -73,7 +79,8 @@ class CommandRule(ABCRule):
 # Вывести актуальный флор
 @bot.on.message(CommandRule(commands=("/floor", "/флор", "/akjh", "начать", "start")))
 async def now_handler(message: Message):
-    bot_message = await floor.get()
+    lang = get_lang(message.client_info.lang_id)
+    bot_message = await floor.get(lang)
     if message.peer_id == message.from_id:
         raw_data = await floor.get_raw()
         ruble_historical = await currency.get_matic_ruble_historical()
@@ -178,13 +185,23 @@ async def chart_handler(event: MessageEvent):
 @bot.on.message(CommandRule(commands=("/кошелек", "/кошелёк", "/wallet")))
 async def wallet_handler(message: Message):
     address = await bot.api.storage.get("wallet", user_id=message.from_id)
+
+    lang = get_lang(message.client_info.lang_id)
+
     if address[0].value == "":
-        await message.answer("👛 Кошелек не привязан! Посетите auth.sovietgirls.su")
+        if lang == "en":
+            await message.answer("👛 Wallet is not linked! Visit auth.sovietgirls.su")
+        else:
+            await message.answer("👛 Кошелек не привязан! Посетите auth.sovietgirls.su")
         return
 
+    if lang == "en":
+        bot_message = "👛 Please wait..."
+    else:
+        bot_message = "👛 Пожалуйста, подождите..."
     m = await bot.api.messages.send(
         peer_id=message.peer_id,
-        message="👛 Пожалуйста, подождите...",
+        message=bot_message,
         random_id=random.randint(0, 2**64),
     )
 
@@ -192,18 +209,31 @@ async def wallet_handler(message: Message):
         address[0].value
     )
     sgr_count = await rubles.balance_of(address[0].value)
-    bot_message = f"👛 Адрес кошелька: {address[0].value}\n"
-    bot_message += f"💳 {sgr_count} SG₽\n\n"
-    bot_message += f"👧 NFT на аккаунте: {balance}\n"
-    bot_message += "🪙 Цена по флору:\n"
-    bot_message += f"MATIC: {balance_matic}\n"
-    bot_message += f"Рубли: {balance_rub} ₽\n"
-    bot_message += f"Доллары: {balance_usd} $\n\n"
+    if lang == "en":
+        bot_message = f"👛 Wallet address: {address[0].value}\n"
+        bot_message += f"💳 {sgr_count} SG₽\n\n"
+        bot_message += f"👧 NFTs on the account: {balance}\n"
+        bot_message += "🪙 Floor price:\n"
+        bot_message += f"MATIC: {balance_matic}\n"
+        bot_message += f"RUB: {balance_rub} ₽\n"
+        bot_message += f"USD: {balance_usd} $\n\n"
+    else:
+        bot_message = f"👛 Адрес кошелька: {address[0].value}\n"
+        bot_message += f"💳 {sgr_count} SG₽\n\n"
+        bot_message += f"👧 NFT на аккаунте: {balance}\n"
+        bot_message += "🪙 Цена по флору:\n"
+        bot_message += f"MATIC: {balance_matic}\n"
+        bot_message += f"Рубли: {balance_rub} ₽\n"
+        bot_message += f"Доллары: {balance_usd} $\n\n"
 
     staking_count = await staking.balance_of(address[0].value)
     if staking_count > 0:
-        bot_message += f"⛏️ NFT в стейкинге: {staking_count}\n"
-        bot_message += f"({round(staking_count*1.4,2)} SG₽/Час)"
+        if lang == "en":
+            bot_message += f"⛏️ NFT in staking: {staking_count}\n"
+            bot_message += f"({round(staking_count*1.4,2)} SG₽/Hour)"
+        else:
+            bot_message += f"⛏️ NFT в стейкинге: {staking_count}\n"
+            bot_message += f"({round(staking_count*1.4,2)} SG₽/Час)"
 
     keyboard = keyboards.get_wallet(address[0].value)
 

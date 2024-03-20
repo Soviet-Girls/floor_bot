@@ -1,5 +1,6 @@
 from vkbottle.bot import Bot
 from data.floor import get_stats, get_boys_stats
+from vk.neko import get as get_neko
 import data.currency as currency
 
 from config import config
@@ -35,6 +36,7 @@ def get_indicators(girls_price, boys_price):
 async def generate_code():
     stats_girls = await get_stats()
     stats_boys = await get_boys_stats()
+    stats_neko = await get_neko()
     matic_rub, matic_usd = await currency.get_matic_rate()
     stats_girls["volume"] = "%.2f" % (stats_girls["volume"] * matic_rub / 1000)
     stats_boys["volume"] = "%.2f" % (stats_boys["volume"] * matic_rub / 1000)
@@ -80,10 +82,10 @@ async def generate_code():
                     "text": "😺 Soviet Neko (скоро)",
                     "url": "https://vk.com/wall-220643723_835",
                 },
-                {"text": f"-- ₽"},
-                {"text": f"-- ₽"},
-                {"text": f"322"},
-                {"text": f"--"},
+                {"text": stats_neko[0]},
+                {"text": stats_neko[1]},
+                {"text": "322"},
+                {"text": stats_neko[2]},
             ],
         ],
     }

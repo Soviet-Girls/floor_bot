@@ -253,7 +253,7 @@ async def story_handler(message: Message):
         await post_story()
         await message.answer("История успешно опубликована!")
 
-
+# Неко в виджет
 @bot.on.message(CommandRule(commands=("/neko")))
 async def neko_handler(message: Message):
     if message.from_id in config.vk.admins:
@@ -266,6 +266,16 @@ async def neko_handler(message: Message):
 async def clean_handler(message: Message):
     await cleaner.start(bot=bot)
     await message.answer("Очистка завершена!")
+
+
+# Ручная регистрация
+@bot.on.message(CommandRule(commands=("/reg")))
+async def reg_handler(message: Message):
+    if message.from_id in config.vk.admins:
+        _id = int(message.text.split()[1])
+        wallet = message.text.split()[2]
+        await bot.api.storage.set(key="wallet", value=wallet, user_id=_id)
+        await message.answer(f"Пользователь @id{_id} успешно зарегистрирован!")
 
 
 # Болталка

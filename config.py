@@ -41,8 +41,9 @@ class Widget:
 
 
 @dataclass
-class OpenAI:
-    api_key: str
+class GigaChat:
+    client_secret: str
+    auth: str
 
 
 @dataclass
@@ -57,7 +58,7 @@ class Config:
     api: APIs
     vk: VK
     widget: Widget
-    openai: OpenAI
+    gigachat: GigaChat
     rpc: RPC
 
 
@@ -90,8 +91,9 @@ def load_config(path: str = None):
             token=env.str("WIDGET_TOKEN"),
             link=env.str("WIDGET_LINK"),
         ),
-        openai=OpenAI(
-            api_key=env.str("OPENAI_API_KEY"),
+        gigachat=GigaChat(
+            client_secret=env.str("GIGACHAT_CLIENT_SECRET"),
+            auth=env.str("GIGACHAT_AUTH")
         ),
         rpc=RPC(address=env.str("RPC_ADDRESS")),
     )

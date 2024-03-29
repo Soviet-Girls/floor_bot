@@ -46,5 +46,8 @@ def get_answer(text: str, peer_id: int, user_name: str):
     messages.append(HumanMessage(text))
     answer = chat(messages)
     messages.append(answer)
+    # если сообщений > 5, то собираем список заново
+    if len(messages) > 5:
+        messages = BASE_MESSAGES + messages[-4:]
     context[str(peer_id)] = messages
     return answer.content

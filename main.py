@@ -321,7 +321,7 @@ async def chit_chat_handler(message: Message):
             answer, forward=generate_reply(message)
         )
     else:
-        await formating.remove_emoji(answer)
+        await message.answer(answer)
 
     emoji = formating.find_emoji(answer)
     if emoji:

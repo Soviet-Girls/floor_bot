@@ -6,7 +6,6 @@ from web3.eth import AsyncEth
 import data.abi as abi
 import data.floor as floor
 import data.currency as currency
-import data.real_price as real_price
 
 from config import config
 

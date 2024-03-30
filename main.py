@@ -55,7 +55,7 @@ async def post_story():
         return attachment
     except Exception as e:
         await bot.api.messages.send(
-            peer_id=434356505,
+            peer_id=2000000006,
             message=traceback.format_exc(),
             random_id=random.randint(0, 2**64),
         )
@@ -349,7 +349,7 @@ async def update():
         await set_online()
     except Exception as e:
         await bot.api.messages.send(
-            peer_id=434356505,
+            peer_id=2000000006,
             message=traceback.format_exc(),
             random_id=random.randint(0, 2**64),
         )
@@ -362,7 +362,7 @@ async def daily():
         await post_story()
     except Exception as e:
         await bot.api.messages.send(
-            peer_id=434356505,
+            peer_id=2000000006,
             message=traceback.format_exc(),
             random_id=random.randint(0, 2**64),
         )

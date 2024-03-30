@@ -318,10 +318,10 @@ async def chit_chat_handler(message: Message):
 
     if message.peer_id != message.from_id:
         await message.answer(
-            formating.remove_emoji(answer), forward=generate_reply(message)
+            answer, forward=generate_reply(message)
         )
     else:
-        await message.answer(formating.remove_emoji(answer))
+        await formating.remove_emoji(answer)
 
     emoji = formating.find_emoji(answer)
     if emoji:

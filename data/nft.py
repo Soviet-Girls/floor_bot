@@ -33,6 +33,16 @@ async def balance_of(address):
     return balance
 
 
+async def balance_of_neko(address):
+    contract_address = w3.to_checksum_address('0xaebc78c7f624e4715ca436351f5ed9cb61e368bd')
+    nft_contract = w3.eth.contract(
+        contract_address, abi=abi.erc721
+    )
+    address = w3.to_checksum_address(address)
+    balance = await nft_contract.functions.balanceOf(address).call()
+    return balance
+
+
 async def get_balance(address):
     balance = await balance_of(address)
     floor_price = await floor.get_raw()

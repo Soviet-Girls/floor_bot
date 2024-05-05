@@ -253,6 +253,14 @@ async def story_handler(message: Message):
         await post_story()
         await message.answer("История успешно опубликована!")
 
+# Обновить виджет
+@bot.on.message(CommandRule(commands=("/widget")))
+async def widget_handler(message: Message):
+    if message.from_id in config.vk.admins:
+        await widget.update()
+        await message.answer("Виджет успешно обновлён!")
+
+
 # Неко в виджет
 @bot.on.message(CommandRule(commands=("/neko")))
 async def neko_handler(message: Message):

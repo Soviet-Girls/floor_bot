@@ -33,9 +33,9 @@ async def get_stats():
                 print(f"Error: {data}")
                 return
     stats = {
-        'owners': data['data']['nftCollectionByAddress']['approximateHoldersCount'],
-        'items': data['data']['nftCollectionByAddress']['approximateItemsCount'],
-        'floor': data['data']['alphaNftCollectionStats']['floorPrice'],
-        'volume': data['data']['alphaNftCollectionStats']['totalVolumeSold']
+        'owners': int(data['data']['nftCollectionByAddress']['approximateHoldersCount']),
+        'items': int(data['data']['nftCollectionByAddress']['approximateItemsCount']),
+        'floor': int(data['data']['alphaNftCollectionStats']['floorPrice']),
+        'volume': int(data['data']['alphaNftCollectionStats']['totalVolumeSold'])
     }
     return stats

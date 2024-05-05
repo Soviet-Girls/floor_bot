@@ -32,10 +32,17 @@ async def get_stats():
                 print(f"Error: {resp.status}")
                 print(f"Error: {data}")
                 return
+            
+    volume = data['data']['alphaNftCollectionStats']['totalVolumeSold']
+    if volume == "0":
+        volume = 0
+    else:
+        volume = int(volume[:-9])
+
     stats = {
         'owners': int(data['data']['nftCollectionByAddress']['approximateHoldersCount']),
         'items': int(data['data']['nftCollectionByAddress']['approximateItemsCount']),
         'floor': int(data['data']['alphaNftCollectionStats']['floorPrice']),
-        'volume': int(data['data']['alphaNftCollectionStats']['totalVolumeSold'])
+        'volume': volume
     }
     return stats

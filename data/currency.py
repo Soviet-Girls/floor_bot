@@ -9,6 +9,13 @@ from typing import Tuple
 import datetime
 import xml.etree.ElementTree as ET
 
+async def get_ton_rate():
+    endpoint = 'https://tonapi.io/v2/rates?tokens=ton&currencies=ton%2Crub'
+    async with aiohttp.ClientSession() as session:
+        async with session.get(endpoint) as response:
+            data = await response.json()
+            return int(data['rates']['TON']['prices']['RUB'])
+
 async def get_matic_rate() -> Tuple[float, float]:
     """
     Returns:

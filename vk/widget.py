@@ -79,7 +79,7 @@ async def generate_code():
                     "url": "https://vk.com/wall-220643723_1025",
                 },
                 {"text": f"{stats_ton['volume']}К ₽"},
-                {"text": f"{int(stats_ton['floorPrice']*ton_rub)} ₽"},
+                {"text": f"{int(stats_ton['floor']*ton_rub)} ₽"},
                 {"text": f"{stats_ton['items']}"},
                 {"text": f"{stats_ton['owners']}"},
             ],

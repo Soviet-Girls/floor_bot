@@ -1,7 +1,7 @@
 import aiohttp
 
 query = """
-query NftCollectionByAddress($address: String!) {
+query NftCollectionByAddress($address: String!, $userAddress: String!) {
   nftCollectionByAddress(address: $address) {
     approximateHoldersCount
     approximateItemsCount
@@ -11,13 +11,17 @@ query NftCollectionByAddress($address: String!) {
     floorPrice
     totalVolumeSold
   }
+  userStats(userAddress: $userAddress) {
+    tradingVolume
+  }
 }
 """
 
 json_data = {
     'query': query,
     'variables': {
-        'address': 'EQBAS1oQQyLgHLTV7lg31yHT8FIbPM-Lsa2uMm8JDRi3WCwk',
+        "address": "EQBAS1oQQyLgHLTV7lg31yHT8FIbPM-Lsa2uMm8JDRi3WCwk",
+        "userAddress": "EQBHxY02iPyaVa5KSqebug__2iL1ngT4PRCEIzPDFMKcUZqz"
     },
     'operationName': 'NftCollectionByAddress',
 }
@@ -34,6 +38,9 @@ async def get_stats():
                 return
             
     volume = data['data']['alphaNftCollectionStats']['totalVolumeSold']
+    user_stats_volume = data['data']['userStats']['tradingVolume']
+    volume += user_stats_volume
+    volume += 24 # получено с пресейла
     if volume == "0":
         volume = 0
     else:

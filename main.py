@@ -17,7 +17,7 @@ from vkbottle.bot import Bot, Message, MessageEvent
 from vkbottle.tools import PhotoMessageUploader
 from stories_uploader import StoriesUploader
 
-from data import floor, nft, chart, dialogue, staking, rubles, stories, currency
+from data import floor, nft, chart, dialogue, staking, rubles, stories, currency, ton
 from vk import keyboards, widget, cleaner, chat_info, stickers, neko
 
 import formating
@@ -274,6 +274,12 @@ async def neko_handler(message: Message):
 async def clean_handler(message: Message):
     await cleaner.start(bot=bot)
     await message.answer("Очистка завершена!")
+
+# Ton данные сырые
+@bot.on.message(CommandRule(commands=("/ton")))
+async def clean_handler(message: Message):
+    data = await ton.get_stats()
+    await message.answer(str(data))
 
 
 # Ручная регистрация

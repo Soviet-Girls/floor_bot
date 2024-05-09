@@ -40,7 +40,7 @@ async def get_stats():
     volume = int(data['data']['alphaNftCollectionStats']['totalVolumeSold'])
     user_stats_volume = int(data['data']['userStats']['tradingVolume'])
     volume += user_stats_volume
-    volume += 24 # получено с пресейла
+    volume += 24000000000 # получено с пресейла
     if volume == "0":
         volume = 0
     else:

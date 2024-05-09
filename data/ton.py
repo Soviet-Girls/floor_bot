@@ -44,7 +44,8 @@ async def get_stats():
     if volume == "0":
         volume = 0
     else:
-        volume = int(volume[:-9])
+        
+        volume = int(str(volume)[:-9])
 
     stats = {
         'owners': int(data['data']['nftCollectionByAddress']['approximateHoldersCount']),

@@ -37,8 +37,8 @@ async def get_stats():
                 print(f"Error: {data}")
                 return
             
-    volume = data['data']['alphaNftCollectionStats']['totalVolumeSold']
-    user_stats_volume = data['data']['userStats']['tradingVolume']
+    volume = int(data['data']['alphaNftCollectionStats']['totalVolumeSold'])
+    user_stats_volume = int(data['data']['userStats']['tradingVolume'])
     volume += user_stats_volume
     volume += 24 # получено с пресейла
     if volume == "0":
